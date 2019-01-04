@@ -4,12 +4,8 @@ from PIL import Image, ImageEnhance
 import glob, os
 import shutil
 import yaml
+import argparse
 
-IMG_TYPE = 'tga'
-IMG_FORMAT = 'tga'
-OUTPUT_PATH = '/home/james/.darkplaces/id1tex/textures'
-BUMP_PATH = 'textures/bump'
-DEBUG = False
 
 TEXTURE_VARIANTS = [
 	'norm',
@@ -20,6 +16,8 @@ TEXTURE_VARIANTS = [
 	'pants',
 	'shirt',
 ]
+
+DEBUG = False
 
 def scale_pixel(pixel, minimum, maximum):
 	delta = maximum - minimum
@@ -54,18 +52,40 @@ def scale_layer(im, minimum, maximum):
 			pixels[i,j] = scale_pixel(px, minimum, maximum)
 
 
-texture_definitions = yaml.load(open('images.yml', 'r'))
+parser = argparse.ArgumentParser(description='Build bump map images for Quake textures.')
+parser.add_argument('-i', '--input',  default="textures/bump", type=str, help='Directory containing the bump map images')
+parser.add_argument('-c', '--config', default='textures.yml', type=open, help="YAML file containing definitions for textures.")
+parser.add_argument('-o', '--output', default="~/.darkplaces/id1/textures", type=str, help='Quake textures directory to put the bump map images.')
+parser.add_argument('-f', '--format', default='tga', type=str, help='Image format to use. (TODO)')
+args = parser.parse_args()
 
+
+texture_definitions = yaml.load(args.config)
+args.config.close()
+
+if '~' in args.input:
+	args.input = os.path.expanduser(args.input)
+args.input = os.path.abspath(args.input)
+print(args.input)
+
+if '~' in args.output:
+	args.output = os.path.expanduser(args.output)
+args.output = os.path.abspath(args.output)
+
+print(args.output)
+if not os.path.isdir(args.output):
+	raise NotADirectoryError("The output directory `{}` does not exist".format(args.output))
 
 # loop over the diffuse textures
-for t_path in glob.glob(OUTPUT_PATH + '/*.tga'):
+for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 	if not any('_' + tv in t_path for tv in TEXTURE_VARIANTS):
 		t_filename = os.path.basename(t_path) # window01_4.tga
 		t_name, t_ext = os.path.splitext(t_filename) # (window01_4, .tga)
 		t_format = t_ext[1:] # tga
 		im = None
 
-		dst = os.path.abspath(OUTPUT_PATH + '/' + t_name + '_bump' + t_ext)
+		dst_filename = t_name + '_bump' + t_ext
+		dst = os.path.abspath(os.path.join(args.output, dst_filename))
 
 		try:
 			# If bump definition use that
@@ -75,7 +95,7 @@ for t_path in glob.glob(OUTPUT_PATH + '/*.tga'):
 					if DEBUG:
 						print('Layer: ', layer_filename)
 
-					layer = Image.open('{}/{}{}'.format(BUMP_PATH, layer_filename, t_ext))
+					layer = Image.open(os.path.join(args.input, '{}{}'.format(layer_filename, t_ext)))
 
 					if layer.mode is not 'RGBA':
 						layer = layer.convert('RGBA')
@@ -89,42 +109,16 @@ for t_path in glob.glob(OUTPUT_PATH + '/*.tga'):
 
 					im = Image.alpha_composite(im, layer)
 
-			print("Save {} {}".format(dst, IMG_TYPE))
+			print("Creating", dst)
 			if not DEBUG:
-				im.save(dst, IMG_TYPE)
+				im.save(dst, args.format)
 		except KeyError:
 			# There is no texture definition so
 			# if bump file exists, copy it over
 			try:
-				src = BUMP_PATH + '/' + t_filename
-				print('Copy {} to {}'.format(src, dst))
+				src = os.path.abspath(os.path.join(args.input, t_filename))
+				print('Copying {} to {}'.format(src, dst))
 				if not DEBUG:
 					shutil.copy(src, dst)
 			except FileNotFoundError:
 				print('No bump file found for {}'.format(t_name))
-
-exit()
-
-for name, config in texture_definitions.items():
-	im = None
-
-	if 'bump' in config:
-		layers = config['bump']
-
-		if len(layers) > 1:
-			for level, filename in enumerate(layers):
-				if filename:
-					layer = Image.open('{}/{}.{}'.format(BUMP_PATH, filename, IMG_TYPE))
-
-					if im is None:
-						im = Image.new( 'RGBA', (layer.size[0], layer.size[1]), "black")
-
-					layer_min = float(level) / len(layers)
-					layer_max = float(level + 1) / len(layers)
-					scale_layer(layer, layer_min, layer_max)
-
-					im = Image.alpha_composite(im, layer)
-		else:
-			im = Image.open('{}/{}.{}'.format(BUMP_PATH, layers[0], IMG_TYPE))
-
-		im.save(os.path.abspath('{}/{}_bump.{}'.format(OUTPUT_PATH, name, IMG_TYPE)), IMG_TYPE)

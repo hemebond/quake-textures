@@ -1,6 +1,3 @@
-+0slip:
-  bump:
-  - +0slip
 +1slip:
   bump:
   - +0slip
@@ -21,27 +18,9 @@
   - +0slip
 
 
-+0slipbot:
-  bump:
-  - +0slipbot
-+0sliptop:
-  bump:
-  - +0sliptop
-
-
-adoor01_2:
-  bump:
-  - adoor01_2
-adoor02_2:
-  bump:
-  - adoor02_2
 adoor03_2:
   bump:
   - adoor01_2
-
-adoor03_3:
-  bump:
-  - adoor03_3
 adoor03_4:
   bump:
   - adoor03_3
@@ -50,24 +29,7 @@ adoor03_5:
   - adoor03_3
 
 
-altar1_7:
-  bump:
-  - altar1_7
-altarc_1:
-  bump:
-  - altarc_1
-
-azfloor1_1:
-  bump:
-  - azfloor1_1
-
-bricka2_1:
-  bump:
-  - bricka2_1
-bricka2_2:
-  bump:
-  - bricka2_2
-bricka2_4:
+bricka2_6:
   bump:
   - bricka2_4
 
@@ -82,9 +44,7 @@ city1_7:
   - city1_7_metal
   - city1_7_rivets
 
-city2_1:
-  bump:
-  - city2_1
+
 city2_2:
   bump:
   - city2_1
@@ -104,9 +64,6 @@ city2_8:
   bump:
   - city2_1
 
-city4_1:
-  bump:
-  - city4_1
 city4_2:
   bump:
   - city4_1
@@ -123,23 +80,14 @@ city4_8:
   bump:
   - city4_1
 
-city5_1:
-  bump:
-  - city5_1
 city5_2:
   bump:
   - city5_1
 
-city6_3:
-  bump:
-  - city6_3
 city6_4:
   bump:
   - city6_3
 
-city6_7:
-  bump:
-  - city6_7
 city6_8:
   bump:
   - city6_7
@@ -147,28 +95,16 @@ city8_2:
   bump:
   - city6_7
 
-column01_3:
-  bump:
-  - column01_3
 column01_5:
   bump:
   - column01_3
 
-cop1_3:
-  bump:
-  - cop1_3
-cop1_4:
-  bump:
-  - cop1_4
 cop1_5:
   bump:
   - cop1_4
 cop1_6:
   bump:
   - cop1_3
-cop1_7:
-  bump:
-  - cop1_7
 cop4_3:
   bump:
   - cop1_7
@@ -176,12 +112,10 @@ cop4_5:
   bump:
   - cop1_7
 
-crate0_side:
-  bump:
-  - crate0_side
 crate1_side:
   bump:
   - crate0_side
+
 
 door01_2:
   bump:
@@ -201,12 +135,7 @@ door03_4:
 door03_5:
   bump:
   - adoor03_3
-door04_1:
-  bump:
-  - door04_1
-door04_2:
-  bump:
-  - door04_2
+
 
 ecop1_4:
   bump:
@@ -218,16 +147,15 @@ ecop1_7:
   bump:
   - cop1_7
 
-ground1_5:
-  bump:
-  - wgrnd1_6
+
 ground1_6:
   bump:
-  - wgrnd1_6
-
-light1_2:
+  - ground1_5
+ground1_7:
   bump:
-  - light1_2
+  - vine1_2
+
+
 light1_4:
   bump:
   - cop1_3
@@ -240,6 +168,14 @@ light1_8:
 light3_3:
   bump:
   - cop1_3
+
+light3_8:
+  bump:
+  - light3_7
+
+met5_3:
+  bump:
+  - plat_top2
 
 metal1_4:
   bump:
@@ -506,7 +442,7 @@ wbrick1_5:
   - wall14_5
 wgrnd1_6:
   bump:
-  - wgrnd1_6
+  - ground1_5
 wgrnd1_8:
   bump:
   - wgrnd1_8
