@@ -1,494 +1,350 @@
 +1slip:
-  bump:
   - +0slip
 +2slip:
-  bump:
   - +0slip
 +3slip:
-  bump:
   - +0slip
 +4slip:
-  bump:
   - +0slip
 +5slip:
-  bump:
   - +0slip
 +6slip:
-  bump:
   - +0slip
 
 
 adoor03_2:
-  bump:
   - adoor01_2
 adoor03_4:
-  bump:
   - adoor03_3
 adoor03_5:
-  bump:
   - adoor03_3
 
 
 bricka2_6:
-  bump:
   - bricka2_4
 
 church1_2:
-  bump:
   - church1_2
 
 
 city1_7:
-  bump:
   - city1_7_wood
   - city1_7_metal
   - city1_7_rivets
 
 
 city2_2:
-  bump:
   - city2_1
 city2_3:
-  bump:
   - city2_1
 city2_5:
-  bump:
   - city2_1
 city2_6:
-  bump:
   - city2_1
 city2_7:
-  bump:
   - city2_1
 city2_8:
-  bump:
   - city2_1
 
 city4_2:
-  bump:
   - city4_1
 city4_5:
-  bump:
   - city4_1
 city4_6:
-  bump:
   - city4_1
 city4_7:
-  bump:
   - city4_1
 city4_8:
-  bump:
   - city4_1
 
 city5_2:
-  bump:
   - city5_1
 
 city6_4:
-  bump:
   - city6_3
 
 city6_8:
-  bump:
   - city6_7
 city8_2:
-  bump:
   - city6_7
 
-column01_5:
-  bump:
+column1_5:
   - column01_3
 
 cop1_5:
-  bump:
   - cop1_4
 cop1_6:
-  bump:
   - cop1_3
 cop4_3:
-  bump:
   - cop1_7
 cop4_5:
-  bump:
   - cop1_7
 
 crate1_side:
-  bump:
   - crate0_side
 
 
 door01_2:
-  bump:
   - adoor01_2
 door02_2:
-  bump:
   - adoor02_2
 door03_2:
-  bump:
   - adoor01_2
 door03_3:
-  bump:
   - adoor03_3
 door03_4:
-  bump:
   - adoor03_3
 door03_5:
-  bump:
   - adoor03_3
 
 
 ecop1_4:
-  bump:
   - cop1_4
 ecop1_6:
-  bump:
   - cop1_3
 ecop1_7:
-  bump:
   - cop1_7
 
 
 ground1_6:
-  bump:
   - ground1_5
 ground1_7:
-  bump:
   - vine1_2
 
 
 light1_4:
-  bump:
   - cop1_3
 light1_7:
-  bump:
   - cop1_3
 light1_8:
-  bump:
   - cop1_3
 light3_3:
-  bump:
   - cop1_3
 
 light3_8:
-  bump:
   - light3_7
 
 met5_3:
-  bump:
   - plat_top2
 
-metal1_4:
-  bump:
-  - metal1_4
 metal1_5:
-  bump:
   - metal1_4
 metal2_3:
-  bump:
   - metal1_4
 metal2_5:
-  bump:
   - met5_1
 metal2_6:
-  bump:
   - met5_1
 metal2_7:
-  bump:
   - metal1_4
-metal4_2:
-  bump:
-  - metal4_2
-metal4_4:
-  bump:
-  - metal4_4
 metal5_1:
-  bump:
   - met5_1
-metal5_6:
-  bump:
-  - metal5_6
-metal5_20:
-  bump:
-  - metal5_20
 metal5_21:
-  bump:
   - metal5_20
-metal6_1:
-  bump:
-  - metal6_1
 
 
-plat_top2:
-  bump:
-  - plat_top2
-plat_top10:
-  bump:
-  - plat_top10
 plat_top11:
-  bump:
   - plat_top10
 plat_top12:
-  bump:
   - plat_top10
 plat_top13:
-  bump:
   - plat_top10
 plat_top14:
-  bump:
   - plat_top10
 plat_top15:
-  bump:
   - plat_top10
 plat_top16:
-  bump:
   - plat_top10
 plat_top17:
-  bump:
   - plat_top10
 plat_top18:
-  bump:
   - plat_top10
 
 
 rock4_2:
-  bump:
   - rock1_2
 
 
 sfloor4_1:
-  bump:
   - sfloor4_1
 sfloor4_2:
-  bump:
   - sfloor4_1
 
 sfloor4_5:
-  bump:
   - sfloor4_5
 sfloor4_7:
-  bump:
   - sfloor4_5
 sfloor4_8:
-  bump:
   - sfloor4_5
 
 
 tech01_5:
-  bump:
   - tech01_5
 tech01_6:
-  bump:
   - tech01_5
 
 
 tech03_1:
-  bump:
   -
   - tech_panel_1
   - tech_rivets_1
 tech03_2:
-  bump:
   - tech_ridges_3
   - tech_panel_1
   - tech_rivets_1
 tech05_1:
-  bump:
   -
   - tech_panel_2
   - tech_rivets_2
 tech05_2:
-  bump:
   -
   - tech_panel_2
   - tech_rivets_2
 tech06_1:
-  bump:
   -
   - tech_panel_3
   - tech_rivets_3
 tech06_2:
-  bump:
   -
   - tech_panel_2
   - tech_rivets_2
 tech07_1:
-  bump:
   -
   - tech_panel_5
   - tech_rivets_5
 tech07_2:
-  bump:
   -
   - tech_panel_4
   - tech_rivets_4
 tech08_1:
-  bump:
   - tech_ridges_1
   - tech_panel_1
   - tech_rivets_1
 tech08_2:
-  bump:
   - tech_ridges_1
   - tech_panel_1
   - tech_rivets_1
 tech09_3:
-  bump:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
 tech09_4:
-  bump:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
 
 tech10_1:
-  bump:
   -
   - tech10_1_panel
   - tech10_1_rivets
 tech10_3:
-  bump:
   - tech10_3_ridges
   - tech10_3_panel
   - tech10_3_rivets
 tech11_2:
-  bump:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
 
 tech13_2:
-  bump:
   -
   - tech_panel_2
   - tech_rivets_2
 tech14_1:
-  bump:
   - tech_ridges_2
   - tech_panel_1
   - tech_rivets_1
 tech14_2:
-  bump:
   - tech_ridges_2
   - tech_panel_2
   - tech_rivets_2
 
-tlight02:
-  bump:
-  - tlight02
-tlight03:
-  bump:
-  - tlight03
 tlight05:
-  bump:
   - tlight03
-tlight07:
-  bump:
-  - tlight07
 tlight09:
-  bump:
   - tlight07
 tlight10:
-  bump:
   - tlight02
 
 
 twall1_1:
-  bump:
   - twall1_1_ridges_1
   - twall1_1_ridges_2
   - twall1_1_panel
 twall1_2:
-  bump:
   - twall1_1_ridges_1
   - twall1_1_ridges_2
   - twall1_2_panel
 twall3_1:
-  bump:
   - twall1_1_ridges_1
   - twall1_1_ridges_2
   - twall1_2_panel
 twall5_1:
-  bump:
   - twall5_1
 twall5_3:
-  bump:
   - twall5_1
 
 vine1_2:
-  bump:
   - vine1_2
 
 wall9_8:
-  bump:
   - wall9_8
 wall11_2:
-  bump:
   - wall11_2
 
-wall14_5:
-  bump:
-  - wall14_5
 wall14_6:
-  bump:
   - wall14_5
   - city5_plaster
-wbrick1_4:
-  bump:
-  - wbrick1_4
 wbrick1_5:
-  bump:
   - wall14_5
 wgrnd1_6:
-  bump:
   - ground1_5
 wgrnd1_8:
-  bump:
   - wgrnd1_8
-window01_1:
-  bump:
-  - window01_1
+
 window1_2:
-  bump:
-  - window1_2
+  -
+  - white64x64
+  - window1_wire1
+  - window1_frame1
 window1_3:
-  bump:
-  - window1_2
+  -
+  - white64x64
+  - window1_wire1
+  - window1_frame1
 window1_4:
-  bump:
-  - window1_4
-window01_3:
-  bump:
-  - window01_3
-window01_4:
-  bump:
-  - window01_4
-window02_1:
-  bump:
-  - window02_1
+  -
+  - white64x64
+  - window1_wire2
+  - window1_frame1
 
-wiz1_4:
-  bump:
-  - wiz1_4
+wiz1_1:
+  - cop1_4
+
 wizmet1_2:
-  bump:
   - mmetal1_2
+wizmet1_8:
+  - wizmet1_6
 wizwin1_2:
-  bump:
-  - window1_2
-wizwood1_4:
-  bump:
-  - wizwood1_4
-
+  -
+  - white64x64
+  - window1_wire1
+  - window1_frame1
+wizwin1_8:
+  -
+  - white64x64
+  - window1_wire3
+  - window1_frame2
 
 wood1_5:
-  bump:
   -
   - wood1_5_metal
   - wood1_5_rivets
+
+wswamp1_4:
+  - wswamp2_2
+
 wwood1_5:
-  bump:
   -
   - wood1_5_metal
   - wood1_5_rivets

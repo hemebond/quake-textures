@@ -1,0 +1,50 @@
+ecop1_4:
+  - cop1_4
+light3_8:
+  - light3_7
+metal1_5:
+  - metal1_4
+metal2_3:
+  - metal1_4
+metal2_5:
+  - met5_1
+metal2_6:
+  - met5_1
+
+plat_top10:
+  - plat_top2
+plat_top11:
+  - plat_top2
+plat_top12:
+  - plat_top2
+plat_top13:
+  - plat_top2
+plat_top14:
+  - plat_top2
+plat_top15:
+  - plat_top2
+plat_top16:
+  - plat_top2
+plat_top17:
+  - plat_top2
+plat_top18:
+  - plat_top2
+
+tech05_2:
+  - tech05_1
+tech06_2:
+  - tech05_1
+tech08_2:
+  - tech08_1
+tech09_4:
+  - tech09_3
+tech11_2:
+  - tech09_3
+tech14_1:
+  - tech08_1
+
+window1_3:
+  - window1_2
+
+wizwin1_2:
+  - window1_2
