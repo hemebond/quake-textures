@@ -59,11 +59,11 @@ parser.add_argument('-o', '--output', default="~/.darkplaces/id1/textures", type
 parser.add_argument('-f', '--format', default='tga', type=str, help='Image format to use. (TODO)')
 args = parser.parse_args()
 
-# temp override
-args.type = 'bump,gloss,glow'
 
 if args.type == 'all':
-	args.type = TEXTURE_VARIANTS
+	# args.type = TEXTURE_VARIANTS
+	# temp override
+	args.type = 'bump,gloss,glow'
 else:
 	args.type = args.type.split(',')
 
