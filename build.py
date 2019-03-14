@@ -7,15 +7,14 @@ import yaml
 import argparse
 
 
-TEXTURE_VARIANTS = [
+TEXTURE_VARIANTS = (
 	'norm',
 	'bump',
 	'gloss',
 	'glow',
-	'luma',
 	'pants',
 	'shirt',
-]
+)
 
 DEBUG = False
 
@@ -63,7 +62,7 @@ args = parser.parse_args()
 if args.type == 'all':
 	# args.type = TEXTURE_VARIANTS
 	# temp override
-	args.type = 'bump,gloss,glow'
+	args.type = ('bump','gloss','glow')
 else:
 	args.type = args.type.split(',')
 
