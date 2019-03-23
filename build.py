@@ -97,10 +97,20 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 				# If variant definition use that
 				layers = t_defs[variant][t_name]
 
-				for layer_level, layer_filename in enumerate(layers):
-					if layer_filename:
+				# We only want to scale texture brightness based regular layers
+				# anything prefixed with __ is a special layer that isn't scaled
+				num_layers = 1
+				if len(layers) > 1:
+					num_layers = len([l for l in layers if l == None or l[:2] != '__'])
+
+				for layer_level, layer_name in enumerate(layers):
+					if layer_name:
 						if DEBUG:
-							print('Layer: ', layer_filename)
+							print('Layer: ', layer_name)
+
+						layer_filename = layer_name
+						if layer_name[:2] == '__':
+							layer_filename = layer_name[2:]
 
 						layer = Image.open(os.path.join(args.input, variant, '{}{}'.format(layer_filename, t_ext)))
 
@@ -110,9 +120,10 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 						if im is None:
 							im = Image.new( 'RGBA', (layer.size[0], layer.size[1]), "black")
 
-						layer_min = float(layer_level) / len(layers)
-						layer_max = float(layer_level + 1) / len(layers)
-						scale_layer(layer, layer_min, layer_max)
+						if layer_name[:2] != '__':
+							layer_min = float(layer_level) / num_layers
+							layer_max = float(layer_level + 1) / num_layers
+							scale_layer(layer, layer_min, layer_max)
 
 						im = Image.alpha_composite(im, layer)
 

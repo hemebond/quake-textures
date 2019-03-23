@@ -38,8 +38,16 @@ tech08_2:
   - tech08_1
 tech09_4:
   - tech09_3
+tech11_1:
+  - __tech_panel_2
+  - __tech_rivets_2
+  - __tech11_1
 tech11_2:
   - tech09_3
+tech12_1:
+  - __tech_panel_2
+  - __tech_rivets_2
+  - __tech12_1
 tech14_1:
   - tech08_1
 

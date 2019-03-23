@@ -20,6 +20,10 @@ adoor03_5:
   - adoor03_3
 
 
+altar1_6:
+  - altar1_7
+
+
 bricka2_6:
   - bricka2_4
 
@@ -241,11 +245,21 @@ tech10_3:
   - tech10_3_ridges
   - tech10_3_panel
   - tech10_3_rivets
+tech11_1:
+  -
+  - tech_panel_2
+  - tech_rivets_2
+  - __tech11_1
 tech11_2:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
 
+tech12_1:
+  -
+  - tech_panel_2
+  - tech_rivets_2
+  - __tech12_1
 tech13_2:
   -
   - tech_panel_2
