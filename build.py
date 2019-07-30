@@ -130,11 +130,19 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 				print("Creating", dst)
 				im.save(dst, args.format)
 			else:
-				# There is no texture definition so
+				# There is no texture definition
 				# if variant file exists, copy it over
 				try:
 					src = os.path.abspath(os.path.join(args.input, variant, t_filename))
 					print('Copying {} to {}'.format(src, dst))
 					shutil.copy(src, dst)
 				except FileNotFoundError:
-					print('No {} file found for {}'.format(variant, t_name))
+					if variant == 'gloss':
+						# open the diffuse texture
+						diffuse_texture = Image.open(t_path)
+						# create new black image of dimensions
+						im = Image.new('RGBA', diffuse_texture.size, (0, 0, 0, 255))
+						# save new image as gloss texture
+						im.save(dst, args.format)
+					else:
+						print('No {} file found for {}'.format(variant, t_name))

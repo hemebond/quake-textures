@@ -11,6 +11,13 @@ metal2_5:
 metal2_6:
   - met5_1
 
+metalt2_4:
+  - metalt2_1
+metalt2_5:
+  - metalt2_1
+metalt2_6:
+  - altar1_6
+
 plat_top10:
   - plat_top2
 plat_top11:
