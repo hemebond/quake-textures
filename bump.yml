@@ -170,6 +170,11 @@ ecop1_6:
 ecop1_7:
   - cop1_7
 
+exit01:
+  - enter01
+exit02_3:
+  - exit02_2
+
 
 ground1_6:
   - ground1_5
@@ -224,6 +229,8 @@ metalt2_7:
   - altar1_7
 
 
+plat_top1:
+  - plat_top10
 plat_top11:
   - plat_top10
 plat_top12:
