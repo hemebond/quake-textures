@@ -58,8 +58,14 @@ tech12_1:
 tech14_1:
   - tech08_1
 
+tlight01_2:
+  - tlight01
+
 window1_3:
   - window1_2
 
 wizwin1_2:
   - window1_2
+
+wwood1_5:
+  - wood1_5

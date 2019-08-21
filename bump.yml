@@ -15,6 +15,8 @@
   - shoot
 +3shoot:
   - shoot
++ashoot:
+  - shoot
 
 +1slip:
   - +0slip
@@ -58,6 +60,9 @@ adoor09_2:
   - adoor09_1
   - adoor_frame_1
   - adoor_rivets_1
+
+azwall3_2:
+  - azwall3_1
 
 door01_2:
   -
@@ -149,6 +154,11 @@ cop4_5:
 
 crate1_side:
   - crate0_side
+
+dem4_4:
+  - dem4_1
+dem5_3:
+  - dem4_1
 
 
 dr01_1:
@@ -357,6 +367,8 @@ tech14_2:
   - tech_panel_2
   - tech_rivets_2
 
+tlight01_2:
+  - tlight01
 tlight05:
   - tlight03
 tlight09:
@@ -395,6 +407,12 @@ wall14_6:
   - city5_plaster
 wbrick1_5:
   - wall14_5
+
+wenter01:
+  - enter01
+wexit01:
+  - enter01
+
 wgrnd1_6:
   - ground1_5
 wgrnd1_8:
@@ -433,6 +451,9 @@ wizwin1_8:
   - white64x64
   - window1_wire3
   - window1_frame2
+
+wizwood1_7:
+  - wizwood1_6
 
 wood1_5:
   -
