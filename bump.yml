@@ -1,3 +1,10 @@
++0basebtn:
+  - +0basebtn
++1basebtn:
+  - +0basebtn
++abasebtn:
+  - +0basebtn
+
 +0button:
   - button
 +1button:
@@ -413,6 +420,8 @@ wenter01:
 wexit01:
   - enter01
 
+wgrnd1_5:
+  - ground1_5
 wgrnd1_6:
   - ground1_5
 wgrnd1_8:
@@ -454,6 +463,14 @@ wizwin1_8:
 
 wizwood1_7:
   - wizwood1_6
+
+wmet4_2:
+  - metal4_2
+
+wkey02_1:
+  - key02_1
+wkey02_2:
+  - key02_1
 
 wood1_5:
   -
