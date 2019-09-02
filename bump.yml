@@ -5,6 +5,28 @@
 +abasebtn:
   - +0basebtn
 
++0butn:
+  - mswtch_3
++1butn:
+  - mswtch_3
++2butn:
+  - mswtch_3
++3butn:
+  - mswtch_3
++0butnn:
+  - mswtch_3
++1butnn:
+  - mswtch_3
++2butnn:
+  - mswtch_3
++3butnn:
+  - mswtch_3
+
++abutn:
+  - mswtch_4
++abutnn:
+  - mswtch_4
+
 +0button:
   - button
 +1button:
@@ -239,7 +261,11 @@ metal5_1:
 metal5_21:
   - metal5_20
 
+metal6_3:
+  - metal6_4
 
+metalt1_1:
+  - altarc_1
 metalt2_6:
   - altar1_7
 metalt2_7:
@@ -268,6 +294,14 @@ plat_top18:
 
 rock4_2:
   - rock1_2
+
+
+rune2_1:
+  - rune1_1
+rune2_3:
+  - rune1_4
+rune2_5:
+  - rune1_5
 
 
 sfloor4_1:
