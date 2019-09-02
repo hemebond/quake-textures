@@ -6,8 +6,6 @@ A collection of bump, gloss, and glow textures to enhance the original Quake gam
   <img src=".github/dp20190902091158-00-sm.jpg">
 </p>
 
-[TOC]
-
 ## Installation
 
 Download a [release](https://github.com/hemebond/quake-textures/releases/) and extract directly into your `quake/id1/textures/` directory (create the `textures` directory if it doesn't exist).
