@@ -144,5 +144,12 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 						im = Image.new('RGBA', diffuse_texture.size, (0, 0, 0, 255))
 						# save new image as gloss texture
 						im.save(dst, args.format)
+					elif variant == 'bump':
+						# open the diffuse texture
+						diffuse_texture = Image.open(t_path)
+						# create new black image of dimensions
+						im = Image.new('RGBA', diffuse_texture.size, (128, 128, 128, 255))
+						# save new image as gloss texture
+						im.save(dst, args.format)
 					else:
 						print('No {} file found for {}'.format(variant, t_name))
