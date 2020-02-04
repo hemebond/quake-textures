@@ -8,6 +8,7 @@ import argparse
 
 
 TEXTURE_VARIANTS = (
+	'diffuse',
 	'norm',
 	'bump',
 	'gloss',
@@ -62,7 +63,7 @@ args = parser.parse_args()
 if args.type == 'all':
 	# args.type = TEXTURE_VARIANTS
 	# temp override
-	args.type = ('bump','gloss','glow')
+	args.type = ('diffuse', 'bump','gloss','glow')
 else:
 	args.type = args.type.split(',')
 
@@ -90,7 +91,11 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 			t_format = t_ext[1:] # tga
 			im = None
 
-			dst_filename = t_name + '_' + variant + t_ext
+			if variant != 'diffuse':
+				dst_filename = t_name + '_' + variant + t_ext
+			else:
+				dst_filename = t_name + t_ext
+
 			dst = os.path.abspath(os.path.join(args.output, dst_filename))
 
 			if variant in t_defs and  t_name in t_defs[variant]:

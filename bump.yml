@@ -5,6 +5,9 @@
 +abasebtn:
   - +0basebtn
 
++1_box_side:
+  - +0_box_side
+
 +0butn:
   - mswtch_3
 +1butn:
@@ -35,6 +38,17 @@
   - button
 +3button:
   - button
+
++0mtlsw:
+  - +0mtlsw
++1mtlsw:
+  - +0mtlsw
++2mtlsw:
+  - +0mtlsw
++3mtlsw:
+  - +0mtlsw
++amtlsw:
+  - +0mtlsw
 
 +0shoot:
   - shoot
@@ -95,8 +109,8 @@ azwall3_2:
 
 
 
-altar1_6:
-  - altar1_7
+altar1_7:
+  - altar1_6
 
 
 altarb_1:
@@ -282,24 +296,24 @@ metalt2_7:
   - altar1_7
 
 
-plat_top1:
-  - plat_top10
+plat_top10:
+  - plat_top1
 plat_top11:
-  - plat_top10
+  - plat_top1
 plat_top12:
-  - plat_top10
+  - plat_top1
 plat_top13:
-  - plat_top10
+  - plat_top1
 plat_top14:
-  - plat_top10
+  - plat_top1
 plat_top15:
-  - plat_top10
+  - plat_top1
 plat_top16:
-  - plat_top10
+  - plat_top1
 plat_top17:
-  - plat_top10
+  - plat_top1
 plat_top18:
-  - plat_top10
+  - plat_top1
 
 
 rock4_2:
@@ -510,6 +524,9 @@ wizwood1_7:
 
 wmet4_2:
   - metal4_2
+
+wmet4_7:
+  - metal4_7
 
 wkey02_1:
   - key02_1
