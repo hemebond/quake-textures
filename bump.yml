@@ -332,6 +332,8 @@ sfloor4_1:
   - sfloor4_1
 sfloor4_2:
   - sfloor4_1
+sfloor4_6:
+  - sfloor4_1
 
 sfloor4_5:
   - sfloor4_5
