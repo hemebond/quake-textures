@@ -3,7 +3,7 @@
 A collection of bump, gloss, and glow textures to enhance the original Quake game textures.
 
 <p align="center">
-  <img src=".github/dp20190902091158-00-sm.jpg">
+  <img src=".github/screenshot.jpg">
 </p>
 
 ## Installation
