@@ -9,7 +9,7 @@ do
 
 	# Have to use some level overrides to fix plat_top1 on non-tech levels
 	# because internally they have the same name
-	ln -sf "$out_dir"/plat_top1_mx.tga "$out_dir/$map"/plat_top1.tga
-	ln -sf "$out_dir"/plat_top1_mx_bump.tga "$out_dir/$map"/plat_top1_bump.tga
-	ln -sf "$out_dir"/plat_top1_mx_gloss.tga "$out_dir/$map"/plat_top1_gloss.tga
+	ln -sf ../plat_top1_mx.tga "$out_dir/$map"/plat_top1.tga
+	ln -sf ../plat_top1_mx_bump.tga "$out_dir/$map"/plat_top1_bump.tga
+	ln -sf ../plat_top1_mx_gloss.tga "$out_dir/$map"/plat_top1_gloss.tga
 done
