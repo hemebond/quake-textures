@@ -22,8 +22,8 @@ DEBUG = False
 def scale_pixel(pixel, minimum, maximum):
 	delta = maximum - minimum
 
-	# if DEBUG:
-	# 	print(pixel, minimum, maximum, delta, sep=', ')
+	if DEBUG:
+		print(pixel, minimum, maximum, delta, sep=', ')
 
 	def scale(pixel_value):
 		return int(((pixel_value / 255) * delta + minimum) * 255)
@@ -43,8 +43,8 @@ def scale_pixel(pixel, minimum, maximum):
 def scale_layer(im, minimum, maximum):
 	pixels = im.load()
 
-	# if DEBUG:
-	# 	print(im, minimum, maximum)
+	if DEBUG:
+		print(im, minimum, maximum)
 
 	for i in range(im.size[0]):
 		for j in range(im.size[1]):
@@ -57,13 +57,17 @@ parser.add_argument('-i', '--input',  default="textures", type=str, help='Direct
 parser.add_argument('-t', '--type', default='all', type=str, help="Comma-separated list of texture variants to build. Defaults to `all` which builds all variants available.")
 parser.add_argument('-o', '--output', default="~/.darkplaces/id1/textures", type=str, help='Quake textures directory to put the bump map images.')
 parser.add_argument('-f', '--format', default='tga', type=str, help='Image format to use. (TODO)')
+parser.add_argument('-v', '--verbose', action='store_true', help='Show progress')
 args = parser.parse_args()
+
+
+LOG = args.verbose
 
 
 if args.type == 'all':
 	# args.type = TEXTURE_VARIANTS
 	# temp override
-	args.type = ('diffuse', 'bump','gloss','glow')
+	args.type = ('bump','gloss','glow')
 else:
 	args.type = args.type.split(',')
 
@@ -82,19 +86,40 @@ args.output = os.path.abspath(os.path.expanduser(args.output))
 if not os.path.isdir(args.output):
 	raise NotADirectoryError("The output directory `{}` does not exist".format(args.output))
 
-# Loop over the diffuse textures
-for t_path in glob.glob(os.path.join(args.output, '*.tga')):
-	if not any('_' + tv in t_path for tv in TEXTURE_VARIANTS):
+
+diffuse_textures = {}
+for tex_path in glob.glob(os.path.join(args.input, 'diffuse', '*.tga')):
+	tex_filename = os.path.basename(tex_path) # window01_4.tga
+	tex_name, tex_ext = os.path.splitext(tex_filename) # (window01_4, .tga)
+	diffuse_textures[tex_name] = [tex_name]
+
+t_defs['diffuse'] = yaml.load(open(os.path.abspath(os.path.expanduser('diffuse.yml')), 'r'))
+diffuse_textures.update(t_defs['diffuse'])
+
+if True:
+	for t_name, t_src in diffuse_textures.items():
+		# copy over the diffuse textures
+		t_ext = '.tga'
+		t_filename = t_name + t_ext
+		t_path = os.path.abspath(os.path.join(args.input, 'diffuse', t_src[0] + t_ext))
+		t_format = t_ext[1:] # tga
+
+		src = t_path
+		dst = os.path.abspath(os.path.join(args.output, t_filename))
+
+		if LOG:
+			print('Copying {} to {}'.format(src, dst))
+		shutil.copy(src, dst)
+
+		# create or copy the variant textures
 		for variant in args.type:
-			t_filename = os.path.basename(t_path) # window01_4.tga
-			t_name, t_ext = os.path.splitext(t_filename) # (window01_4, .tga)
-			t_format = t_ext[1:] # tga
+			# t_filename = os.path.basename(t_path) # window01_4.tga
+			# t_name, t_ext = os.path.splitext(t_filename) # (window01_4, .tga)
+			# t_format = t_ext[1:] # tga
+
 			im = None
 
-			if variant != 'diffuse':
-				dst_filename = t_name + '_' + variant + t_ext
-			else:
-				dst_filename = t_name + t_ext
+			dst_filename = t_name + '_' + variant + t_ext
 
 			dst = os.path.abspath(os.path.join(args.output, dst_filename))
 
@@ -132,14 +157,16 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 
 						im = Image.alpha_composite(im, layer)
 
-				print("Creating", dst)
+				if LOG:
+					print("Creating", dst)
 				im.save(dst, args.format)
 			else:
 				# There is no texture definition
 				# if variant file exists, copy it over
 				try:
 					src = os.path.abspath(os.path.join(args.input, variant, t_filename))
-					print('Copying {} to {}'.format(src, dst))
+					if LOG:
+						print('Copying {} to {}'.format(src, dst))
 					shutil.copy(src, dst)
 				except FileNotFoundError:
 					if variant == 'gloss':
@@ -157,4 +184,5 @@ for t_path in glob.glob(os.path.join(args.output, '*.tga')):
 						# save new image as gloss texture
 						im.save(dst, args.format)
 					else:
-						print('No {} file found for {}'.format(variant, t_name))
+						if DEBUG:
+							print('No {} file found for {}'.format(variant, t_name))

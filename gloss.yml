@@ -5,6 +5,16 @@
 +abasebtn:
   - +0basebtn
 
+
+
++1_med100:
+  - +0_med100
++2_med100:
+  - +0_med100
++3_med100:
+  - +0_med100
+
+
 ecop1_4:
   - cop1_4
 light3_8:
@@ -25,24 +35,15 @@ metalt2_5:
 metalt2_6:
   - altar1_6
 
-plat_top10:
-  - plat_top2
-plat_top11:
-  - plat_top2
-plat_top12:
-  - plat_top2
-plat_top13:
-  - plat_top2
-plat_top14:
-  - plat_top2
-plat_top15:
-  - plat_top2
-plat_top16:
-  - plat_top2
-plat_top17:
-  - plat_top2
-plat_top18:
-  - plat_top2
+
+plat_top1:
+  - plat_top1_m1
+
+plat_top2:
+  - plat_top1
+plat_top1_mx:
+  - plat_top1
+
 
 sfloor4_1:
   - sfloor4_1
@@ -50,6 +51,9 @@ sfloor4_2:
   - sfloor4_1
 sfloor4_6:
   - sfloor4_1
+
+tech03_2:
+  - tech03_1
 
 tech05_2:
   - tech05_1
