@@ -5,6 +5,14 @@ import glob, os
 import shutil
 import yaml
 import argparse
+import logging
+
+
+
+logging.basicConfig()
+log = logging.getLogger(__file__)
+log.setLevel(logging.INFO)
+
 
 
 TEXTURE_VARIANTS = (
@@ -57,24 +65,25 @@ parser.add_argument('-i', '--input',  default="textures", type=str, help='Direct
 parser.add_argument('-t', '--type', default='all', type=str, help="Comma-separated list of texture variants to build. Defaults to `all` which builds all variants available.")
 parser.add_argument('-o', '--output', default="~/.darkplaces/id1/textures", type=str, help='Quake textures directory to put the bump map images.')
 parser.add_argument('-f', '--format', default='tga', type=str, help='Image format to use. (TODO)')
-parser.add_argument('-v', '--verbose', action='store_true', help='Show progress')
+parser.add_argument('-l', '--log-level', default="info", help="Log level")
 args = parser.parse_args()
 
 
-LOG = args.verbose
+log.setLevel(logging._nameToLevel[args.log_level.upper()])
 
 
 if args.type == 'all':
 	# args.type = TEXTURE_VARIANTS
 	# temp override
-	args.type = ('bump','gloss','glow')
+	args.type = ('bump', 'gloss', 'glow', "norm")
 else:
 	args.type = args.type.split(',')
 
 t_defs = {}
 for variant in args.type:
 	try:
-		t_defs[variant] = yaml.load(open(os.path.abspath(os.path.expanduser(variant + '.yml')), 'r'))
+		with open(os.path.abspath(os.path.expanduser(variant + '.yml')), 'r') as fp:
+			t_defs[variant] = yaml.safe_load(fp)
 	except FileNotFoundError:
 		t_defs[variant] = {}
 
@@ -84,16 +93,17 @@ args.output = os.path.abspath(os.path.expanduser(args.output))
 
 # Check that the output directory exists
 if not os.path.isdir(args.output):
-	raise NotADirectoryError("The output directory `{}` does not exist".format(args.output))
+	raise NotADirectoryError(f"The output directory `{args.output}` does not exist")
 
 
 diffuse_textures = {}
-for tex_path in glob.glob(os.path.join(args.input, 'diffuse', '*.tga')):
+for tex_path in glob.glob(os.path.join(args.input, "diffuse", "*")):
 	tex_filename = os.path.basename(tex_path) # window01_4.tga
 	tex_name, tex_ext = os.path.splitext(tex_filename) # (window01_4, .tga)
 	diffuse_textures[tex_name] = [tex_name]
 
-t_defs['diffuse'] = yaml.load(open(os.path.abspath(os.path.expanduser('diffuse.yml')), 'r'))
+with open(os.path.abspath(os.path.expanduser('diffuse.yml')), "r") as fp:
+	t_defs['diffuse'] = yaml.safe_load(fp, 'r')
 diffuse_textures.update(t_defs['diffuse'])
 
 if True:
@@ -107,8 +117,7 @@ if True:
 		src = t_path
 		dst = os.path.abspath(os.path.join(args.output, t_filename))
 
-		if LOG:
-			print('Copying {} to {}'.format(src, dst))
+		log.info(f"Copying {src} to {dst}")
 		shutil.copy(src, dst)
 
 		# create or copy the variant textures
@@ -135,8 +144,7 @@ if True:
 
 				for layer_level, layer_name in enumerate(layers):
 					if layer_name:
-						if DEBUG:
-							print('Layer: ', layer_name)
+						log.debug(f"Layer: {layer_name}")
 
 						layer_filename = layer_name
 						if layer_name[:2] == '__':
@@ -157,7 +165,7 @@ if True:
 
 						im = Image.alpha_composite(im, layer)
 
-				if LOG:
+				log.info(f"Creating {dst}")
 					print("Creating", dst)
 				im.save(dst, args.format)
 			else:
@@ -166,7 +174,7 @@ if True:
 				try:
 					src = os.path.abspath(os.path.join(args.input, variant, t_filename))
 					if LOG:
-						print('Copying {} to {}'.format(src, dst))
+					log.info(f"Copying {src} to {dst}")
 					shutil.copy(src, dst)
 				except FileNotFoundError:
 					if variant == 'gloss':
@@ -184,5 +192,5 @@ if True:
 						# save new image as gloss texture
 						im.save(dst, args.format)
 					else:
-						if DEBUG:
+						log.warn(f"No {variant} file found for {t_name}")
 							print('No {} file found for {}'.format(variant, t_name))
