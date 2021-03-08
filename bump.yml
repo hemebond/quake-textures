@@ -539,6 +539,9 @@ wizwin1_8:
 wizwood1_7:
   - wizwood1_6
 
+wizwood1_8:
+  - wizwood1_5
+
 wmet4_2:
   - metal4_2
 
