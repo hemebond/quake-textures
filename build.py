@@ -103,7 +103,7 @@ for tex_path in glob.glob(os.path.join(args.input, "diffuse", "*")):
 	diffuse_textures[tex_name] = [tex_name]
 
 with open(os.path.abspath(os.path.expanduser('diffuse.yml')), "r") as fp:
-	t_defs['diffuse'] = yaml.safe_load(fp, 'r')
+	t_defs['diffuse'] = yaml.safe_load(fp)
 diffuse_textures.update(t_defs['diffuse'])
 
 if True:
@@ -152,7 +152,7 @@ if True:
 
 						layer = Image.open(os.path.join(args.input, variant, '{}{}'.format(layer_filename, t_ext)))
 
-						if layer.mode is not 'RGBA':
+						if layer.mode != 'RGBA':
 							layer = layer.convert('RGBA')
 
 						if im is None:
@@ -166,14 +166,12 @@ if True:
 						im = Image.alpha_composite(im, layer)
 
 				log.info(f"Creating {dst}")
-					print("Creating", dst)
 				im.save(dst, args.format)
 			else:
 				# There is no texture definition
 				# if variant file exists, copy it over
 				try:
 					src = os.path.abspath(os.path.join(args.input, variant, t_filename))
-					if LOG:
 					log.info(f"Copying {src} to {dst}")
 					shutil.copy(src, dst)
 				except FileNotFoundError:
@@ -193,4 +191,3 @@ if True:
 						im.save(dst, args.format)
 					else:
 						log.warn(f"No {variant} file found for {t_name}")
-							print('No {} file found for {}'.format(variant, t_name))

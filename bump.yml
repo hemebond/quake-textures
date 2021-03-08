@@ -405,10 +405,12 @@ tech09_3:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
+  - __tech09_3
 tech09_4:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
+  - __tech09_4
 
 tech10_1:
   -
@@ -427,6 +429,7 @@ tech11_2:
   - tech_ridges_1
   - tech_panel_6
   - tech_rivets_5
+  - __tech11_2
 
 tech12_1:
   -
