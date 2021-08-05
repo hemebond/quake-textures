@@ -1,55 +1,38 @@
-import json
+import tracemalloc
+tracemalloc.start()
 
 from PIL import Image, ImageChops
-
 from gimpformats.gimpXcfDocument import GimpDocument, flattenAll
 from gimpformats.GimpLayer import GimpLayer
-project = GimpDocument("/home/james/Untitled.xcf")
-# (flattenAll(project, (8, 8))).show()
 
 
 
-# import layeredimage.io
-# project = layeredimage.io.openLayerImage('/home/james/Untitled.xcf')
-# (project.getFlattenLayers()).show()
+project = GimpDocument('src/tech_wall.xcf')
 
 
-# """List data on groups followed by the direct children of a gimp xcf document
-# """
-# # layers = project.layers
-# # index = 0
-# # print("## Group info...")
-# # while index < len(layers):
-# # 	layerOrGroup = layers[index]
-# # 	if layerOrGroup.isGroup:
-# # 		index += 1
-# # 		while layers[index].itemPath is not None:
-# # 			print("Group \"" + layerOrGroup.name + "\" contains Layer \"" + layers[index].name + "\"")
-# # 			layers.pop(index)
-# # 	else:
-# # 		index += 1
-
-# # print("## Document direct children...")
-# # for layerOrGroup in layers:
-# # 	print("\"" + layerOrGroup.name + "\" is a " + ("Group" if layerOrGroup.isGroup else "Layer"))
-
-# # Toggle layer
-# # layer.visible = True
-
-
-# def get_layer_by_name(project, name):
-# 	for layer in project.layers:
-# 		if layer.name == name:
-# 			return layer
-# 	return None
-
-
+"tech_wall": [
+	"tech11_1_bump": [
+		'11_1 bump 0',
+		'11_1 bump 1',
+		'11_1 bump 2',
+		'11_1 bump 3',
+		'11_1 bump 4',
+		'rivets_2_bump',
+		'ridges_bump_tiny',
+		'panel_angled_wide_bump',
+	]
+]
 
 layer_tree = {
 	'children': [],
 }
 for idx, layer in enumerate(project.layers):
 	print(idx, layer.name, layer.itemPath, type(layer), layer.imageHierarchy._levelPtrs)
+
+	if layer.name == 'Background' or layer.name in tech11_1_layers:
+		layer.visible = True
+	else:
+		layer.visible = False
 
 	layer_idx = idx
 	parent = layer_tree
@@ -114,11 +97,14 @@ def apply_masks(group, parent_mask=None):
 		group['layer'].visible = False
 
 apply_masks(layer_tree)
-# for layer in project.layers:
-# 	if hasattr(layer, 'image'):
-# 		layer.image.show()
 
-(flattenAll(project, (8, 8))).show()
+# (flattenAll(project, (project.width, project.height))).show()
+output = flattenAll(project, (project.width, project.height))
+output.save('/home/james/.darkplaces/id1_tex/textures/tech11_1_bump.tga')
+
+current, peak = tracemalloc.get_traced_memory()
+print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+tracemalloc.stop()
 
 
 # def flatten_children(group):
