@@ -1,0 +1,371 @@
++0_med100: &0_med100
+  src: +0_med100
+  bump:
+  - bump
+  gloss:
+  - gloss
+  glow:
+  - glow_mask
+  - glow_colour
+  - glow_brighten
+  - +0_med100.tga
+  diffuse:
+  - glow_colour
+  - +0_med100.tga
++1_med100:
+  <<: *0_med100
+  glow:
+  - glow_mask
+  - glow_colour
+  - glow_brighten
+  - +1_med100.tga
+  diffuse:
+  - glow_colour
+  - +1_med100.tga
++2_med100:
+  <<: *0_med100
+  glow:
+  - glow_mask
+  - glow_colour
+  - glow_brighten
+  - +2_med100.tga
+  diffuse:
+  - glow_colour
+  - +2_med100.tga
++3_med100:
+  <<: *0_med100
+  glow:
+  - glow_mask
+  - glow_colour
+  - glow_brighten
+  - +3_med100.tga
+  diffuse:
+  - glow_colour
+  - +3_med100.tga
++0shoot: &0shoot
+  src: +0shoot
+  diffuse:
+  - +0shoot.tga
+  bump:
+  - bump
+  glow:
+  - glow_mask
+  - +0shoot.tga
++1shoot:
+  <<: *0shoot
+  glow:
+  - glow_mask
+  - +1shoot.tga
++2shoot:
+  <<: *0shoot
+  glow:
+  - glow_mask
+  - +2shoot.tga
++3shoot:
+  <<: *0shoot
+  glow:
+  - glow_mask
+  - +3shoot.tga
++ashoot:
+  src: +0shoot
+  bump:
+  - bump
+comp1_1:
+  src: comp1
+  bump:
+  - comp1_1_bump
+  gloss:
+  - comp1_1_gloss
+  glow:
+  - comp1_1_glow
+comp1_2:
+  src: comp1
+  bump:
+  - comp1_2_bump_4
+  - comp1_2_bump_3
+  - bump
+  gloss:
+  - comp1_2_gloss
+comp1_4:
+  src: comp1
+  bump:
+  - bump
+edoor01_1:
+  gloss:
+  - gloss
+  src: edoor01_1
+key01_1:
+  src: key01
+  bump:
+  - bump
+  gloss:
+  - gloss
+  glow:
+  - key01_1_glow
+key01_2:
+  src: key01
+  bump:
+  - bump
+  gloss:
+  - gloss
+  glow:
+  - key01_2_glow
+e1m1/plat_side1: &plat_side1
+  src: plat_side1
+  bump:
+  - bump3
+  - bump2
+  - bump1
+  - bump background
+e2m1/plat_side1:
+  <<: *plat_side1
+e3m1/plat_side1:
+  <<: *plat_side1
+e4m1/plat_side1:
+  <<: *plat_side1
+e1m1/plat_top1: &plat_top1
+  src: plat_top1_m1
+  bump:
+  - bump_detail
+  - bump_plat
+  gloss:
+  - gloss
+  - gloss_bg
+e2m1/plat_top1:
+  <<: *plat_top1
+e3m1/plat_top1:
+  <<: *plat_top1
+e4m1/plat_top1:
+  <<: *plat_top1
+rock3_2:
+  src: rock3_2
+  bump:
+  - bump1
+  - bump0
+  - background
+stone1_5:
+  src: stone1_5
+  bump:
+  - bump
+switch_1:
+  src: switch_1
+  bump:
+  - bump
+  glow:
+  - glow
+tech03_1:
+  bump:
+  - rivets_1_bump
+  - panel_angled_thin_bump
+  src: tech_wall
+tech03_2:
+  bump:
+  - rivets_1_bump
+  - panel_angled_thin_bump
+  - ridges_bump_tiny
+  src: tech_wall
+tech04_1:
+  bump:
+  - rivets bump
+  - bump_flat
+  src: tech04_h
+tech04_2:
+  bump:
+  - bump_flat
+  src: tech04_h
+tech04_3:
+  bump:
+  - rivets_bump
+  - bump_flat
+  src: tech04_v
+tech04_4:
+  bump:
+  - bump_flat
+  src: tech04_v
+tech04_5:
+  bump:
+  - rivets bump
+  - bump
+  src: tech04_h
+tech04_6:
+  bump:
+  - bump
+  src: tech04_h
+tech04_7:
+  bump:
+  - rivets_bump
+  - bump
+  src: tech04_v
+tech04_8:
+  bump:
+  - bump
+  src: tech04_v
+tech05_1:
+  bump:
+  - rivets_2_bump
+  - panel_angled_wide_bump
+  src: tech_wall
+tech05_2:
+  bump:
+  - rivets_2_bump
+  - panel_angled_wide_bump
+  src: tech_wall
+tech06_1:
+  bump:
+  - rivets_3_bump
+  - panel_tiny_bump
+  src: tech_wall
+tech06_2:
+  bump:
+  - 06_2_bump
+  - rivets_2_bump
+  - panel_angled_wide_bump
+  src: tech_wall
+tech07_1:
+  bump:
+  - rivets_5_bump
+  - panel_straight_wide_bump
+  src: tech_wall
+tech07_2:
+  bump:
+  - rivets_4_bump
+  - panel_straight_thin_bump
+  src: tech_wall
+tech08_1:
+  bump:
+  - rivets_1_bump
+  - panel_angled_thin_bump
+  - ridges_bump_small
+  src: tech_wall
+tech08_2:
+  bump:
+  - rivets_1_bump
+  - panel_angled_thin_bump
+  - ridges_bump_small
+  src: tech_wall
+tech09_3:
+  bump:
+  - 09_3_bump
+  - rivets_5_bump
+  - panel_i_bump
+  - ridges_bump_small
+  src: tech_wall
+tech09_4:
+  bump:
+  - 09_4_bump
+  - rivets_5_bump
+  - panel_i_bump
+  - ridges_bump_small
+  src: tech_wall
+tech10_1:
+  diffuse:
+  - diffuse
+  - tech10_1.tga
+  gloss:
+  - rivets_gloss
+  - gloss
+  bump:
+  - rivets_bump
+  - bump
+  src: tech10_1
+tech11_1:
+  bump:
+  - 11_1 bump 0
+  - 11_1 bump 1
+  - 11_1 bump 2
+  - 11_1 bump 3
+  - 11_1 bump 4
+  - rivets_2_bump
+  - panel_angled_wide_bump
+  src: tech_wall
+tech11_2:
+  bump:
+  - 11_2_bump
+  - rivets_5_bump
+  - panel_i_bump
+  - ridges_bump_small
+  src: tech_wall
+tech12_1:
+  bump:
+  - 12_1_bump
+  - rivets_2_bump
+  - panel_angled_wide_bump
+  src: tech_wall
+tech13_2:
+  bump:
+  - rivets_2_bump
+  - panel_angled_wide_bump
+  src: tech_wall
+tech14_1:
+  bump:
+  - rivets_1_bump
+  - panel_angled_thin_bump
+  - ridges_bump_large
+  src: tech_wall
+tlight02:
+  bump:
+  - bump
+  glow:
+  - glow
+  gloss:
+  - gloss
+  src: tlight02
+twall1_4:
+  bump:
+  - bump 1
+  - bump 2
+  - bump 3
+  - bump bg
+  src: twall1_4
+twall2_1:
+  glow:
+  - glow
+  src: twall2_1
+twall2_2:
+  src: twall2_2
+  bump:
+  - bump 3
+  - bump 2
+  - bump 1
+  - bump 0
+  gloss:
+  - gloss 2
+  - gloss 1
+  - gloss 0
+  glow:
+  - glow
+vine1_2:
+  src: vine1_2
+  bump:
+  - bump
+  - background
+wall9_8:
+  src: wall9_8
+  bump:
+  - bump
+  gloss:
+  - gloss
+wswamp1_2:
+  src: wswamp1_2
+  bump:
+  - bump_slime
+  - bump_vines
+  - background
+  gloss:
+  - gloss
+  - background
+wswamp2_1:
+  src: wswamp2_1
+  bump:
+  - bump
+  gloss:
+  - gloss
+  - background
+z_exit:
+  src: z_exit
+  bump:
+  - bump
+  glow:
+  - glow
+  gloss:
+  - gloss

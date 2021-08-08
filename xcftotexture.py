@@ -1,61 +1,95 @@
+import os
+from argparse import ArgumentParser, Action
+from pathlib import Path
+import logging
 import tracemalloc
-tracemalloc.start()
+from typing import Union
 
+import yaml
 from PIL import Image, ImageChops
 from gimpformats.gimpXcfDocument import GimpDocument, flattenAll
 from gimpformats.GimpLayer import GimpLayer
 
 
 
-project = GimpDocument('src/tech_wall.xcf')
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
-"tech_wall": [
-	"tech11_1_bump": [
-		'11_1 bump 0',
-		'11_1 bump 1',
-		'11_1 bump 2',
-		'11_1 bump 3',
-		'11_1 bump 4',
-		'rivets_2_bump',
-		'ridges_bump_tiny',
-		'panel_angled_wide_bump',
-	]
-]
 
-layer_tree = {
-	'children': [],
-}
-for idx, layer in enumerate(project.layers):
-	print(idx, layer.name, layer.itemPath, type(layer), layer.imageHierarchy._levelPtrs)
+class Document(GimpDocument):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.layer_tree = get_layer_tree(self)
 
-	if layer.name == 'Background' or layer.name in tech11_1_layers:
-		layer.visible = True
-	else:
-		layer.visible = False
 
-	layer_idx = idx
-	parent = layer_tree
 
-	if layer.itemPath:
-		layer_idx = layer.itemPath.pop()
+DOCUMENT_CACHE = {}  # maintain a cache of opened GimpDocuments
 
+
+
+TEXTURE_VARIANTS = (
+	'diffuse',
+	'norm',
+	'bump',
+	'gloss',
+	'glow',
+	'pants',
+	'shirt',
+)
+
+
+
+def get_document(name: str, cache: dict = DOCUMENT_CACHE) -> Document:
+	if name in cache:
+		return cache[name]
+
+	filepath = os.path.join('src', name + '.xcf')
+	document = Document(filepath)
+	apply_masks(document.layer_tree)
+	cache[name] = document
+	return document
+
+
+
+def get_layer(document: GimpDocument, name: str) -> Union[GimpLayer, None]:
+	for layer in document.layers:
+		if layer.name == name:
+			return layer
+
+	return None
+
+
+
+def get_layer_tree(document: GimpDocument):
+	layer_tree = {
+		'children': [],
+	}
+	for idx, layer in enumerate(document.layers):
 		parent = layer_tree
-		for level_idx in layer.itemPath:
-			parent = parent['children'][level_idx]
 
-	if layer.isGroup:
-		parent['children'].append({
-			'layer': layer,
-			'children': [],
-		})
-	else:
-		parent['children'].append(layer)
+		if layer.itemPath:
+			layer.itemPath.pop()
+
+			parent = layer_tree
+			for level_idx in layer.itemPath:
+				parent = parent['children'][level_idx]
+
+		if layer.isGroup:
+			parent['children'].append({
+				'layer': layer,
+				'children': [],
+			})
+		else:
+			parent['children'].append(layer)
+
+	return layer_tree
 
 
 
 
-def apply_masks(group, parent_mask=None):
+def apply_masks(group: dict, parent_mask: Image = None):
 	group_mask = None
 	if 'layer' in group:
 		group_mask = getattr(group['layer'], 'mask')
@@ -96,45 +130,123 @@ def apply_masks(group, parent_mask=None):
 	if 'layer' in group:
 		group['layer'].visible = False
 
-apply_masks(layer_tree)
-
-# (flattenAll(project, (project.width, project.height))).show()
-output = flattenAll(project, (project.width, project.height))
-output.save('/home/james/.darkplaces/id1_tex/textures/tech11_1_bump.tga')
-
-current, peak = tracemalloc.get_traced_memory()
-print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
-tracemalloc.stop()
 
 
-# def flatten_children(group):
-# 	for idx, child in enumerate(group['children']):
-# 		if isinstance(child, dict) and 'children' in child:
-# 			flattened_layer = flatten_children(child)
-# 			group['children'][idx] = flattened_layer
-
-# 	# print_children(group['children'])
-# 	# print(group['children'])
-
-# 	flattened_image = flattenAll(group['children'], (8, 8))
-# 	if 'layer' in group:
-# 		group_layer = group['layer']
-
-# 		if group_layer.mask is not None:
-# 			flattened_image.show()
-# 			flattened_image.putalpha(group_layer.mask.image)
-
-# 		flattened_image.show()
-
-# 		new_layer = GimpLayer(
-# 			parent=group_layer.parent,
-# 			name=group_layer.name,
-# 			image=flattened_image,
-# 		)
-# 		return new_layer
-# 	else:
-# 		return flattened_image
+def update_visible_layers(document: GimpDocument, layers: list[str]):
+	for layer in document.layers:
+		if layer.name == 'Background' or layer.name in layers:
+			layer.visible = True
+		else:
+			layer.visible = False
 
 
 
-# (flatten_children(layer_tree)).show()
+def render_texture(document: Document, layers: list[str]):
+	update_visible_layers(document, layers)
+	return flattenAll(document, (document.width, document.height))
+
+
+
+def render_textures(textures: dict, output_dir: str):
+	for texture_name, texture_def in textures.items():
+		document = get_document(texture_def['src'])
+
+		for variant_name in TEXTURE_VARIANTS:
+			layers = texture_def.get(variant_name, [])
+
+			if layers:
+				image = render_texture(
+					document,
+					layers,
+				)
+
+				if variant_name == 'diffuse':
+					filename = "%s.tga" % texture_name
+				else:
+					filename = "%s_%s.tga" % (texture_name, variant_name)
+
+				filepath = Path(os.path.join(output_dir, filename))
+
+				if not filepath.parent.exists():
+					os.mkdir(filepath.parent)
+
+				print("Save to %s" % filepath)
+
+				image.save(filepath)
+
+
+
+class ResolvePathAction(Action):
+	def __call__(self, parser, namespace, values, option_string=None):
+		values = values.expanduser().resolve()
+		setattr(namespace, self.dest, values)
+
+
+
+class LogLevelMapperAction(Action):
+	def __call__(self, parser, namespace, values, option_string=None):
+		values = logging._nameToLevel[values.upper()]
+		setattr(namespace, self.dest, values)
+
+
+
+if __name__ == "__main__":
+	parser = ArgumentParser(
+		description="Generate texture variants from a set of definitions."
+	)
+	parser.add_argument(
+		"infile",
+		type=Path,
+		action=ResolvePathAction,
+		help="Texture definition YAML file"
+	)
+	parser.add_argument(
+		"outdir",
+		type=Path,
+		action=ResolvePathAction,
+		help="Output directory"
+	)
+	parser.add_argument(
+		"-s",
+		"--src",
+		default="src",
+		type=Path,
+		action=ResolvePathAction,
+		help="Directory containing the XCF source images (DEFAULT: src)"
+	)
+	parser.add_argument(
+		"-v",
+		"--variants",
+		default="all",
+		type=str,
+		help="Comma-separated list of texture variants to build (DEFAULT: all)"
+	)
+	parser.add_argument(
+		"-f",
+		"--format",
+		default="tga",
+		type=str,
+		help="Image format to use. (TODO)"
+	)
+	parser.add_argument(
+		"-l",
+		"--log-level",
+		default=logging.INFO,
+		action=LogLevelMapperAction,
+		help="Log level"
+	)
+	args = parser.parse_args()
+
+	log.setLevel(args.log_level)
+
+	tracemalloc.start()
+
+	with open(args.infile, 'r') as yaml_file:
+		texture_defs = yaml.load(yaml_file)
+
+	render_textures(texture_defs, args.outdir)
+
+	current, peak = tracemalloc.get_traced_memory()
+	tracemalloc.stop()
+
+	print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
