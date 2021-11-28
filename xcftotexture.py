@@ -3,7 +3,8 @@ from argparse import ArgumentParser, Action
 from pathlib import Path
 import logging
 import tracemalloc
-from typing import Union
+from typing import Union, TextIO, IO
+from copy import copy
 
 import yaml
 from PIL import Image, ImageChops
@@ -176,6 +177,71 @@ def render_textures(textures: dict, output_dir: str):
 
 
 
+class DocumentCache:
+	def __init__(self, source_directory: Path):
+		self.source_directory = source_directory
+		self.cache = {}
+
+	def _make_filepath(self, name: str) -> Path:
+		log.debug(Path(self.source_directory, f"{name}.xcf"))
+		return Path(self.source_directory, f"{name}.xcf")
+
+	def get(self, name: str) -> dict:
+		if name in self.cache:
+			return self.cache[name]
+
+		filepath = self._make_filepath(name)
+		# gimpformats requires an explicit string otherwise it falls back to BytesIO
+		document = GimpDocument(str(filepath))
+		mtime = os.stat(filepath).st_mtime
+
+		self.cache[name] = {
+			'path': filepath,
+			'document': document,
+			'mtime': mtime,
+		}
+
+		return self.cache[name]
+
+	def get_document(self, name) -> GimpDocument:
+		return self.get(name)['document']
+
+	def get_mtime(self, name) -> float:
+		return self.get(name)['mtime']
+
+
+
+class TextureBuilder:
+	def __init__(self):
+		pass
+
+
+
+class Texture:
+	def __init__(self, definition: dict):
+		pass
+
+	def render_variant(self):
+		pass
+
+	def save(self):
+		pass
+
+
+
+
+class TextureVariant:
+	def __init__(self, name: str, type: str, document: GimpDocument, definition: dict):
+		pass
+
+	def render(self, document: GimpDocument, layers: list):
+		pass
+
+	def save(self, output_directory: Path):
+		pass
+
+
+
 class ResolvePathAction(Action):
 	def __call__(self, parser, namespace, values, option_string=None):
 		values = values.expanduser().resolve()
@@ -242,11 +308,12 @@ if __name__ == "__main__":
 	tracemalloc.start()
 
 	with open(args.infile, 'r') as yaml_file:
-		texture_defs = yaml.load(yaml_file)
-
+		texture_defs = yaml.safe_load(yaml_file)
 	render_textures(texture_defs, args.outdir)
 
 	current, peak = tracemalloc.get_traced_memory()
 	tracemalloc.stop()
 
 	print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
+
+
