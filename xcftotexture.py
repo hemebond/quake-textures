@@ -1,4 +1,5 @@
 import os
+import shutil
 from argparse import ArgumentParser, Action
 from pathlib import Path
 import logging
@@ -20,8 +21,12 @@ log.setLevel(logging.INFO)
 
 
 class Document(GimpDocument):
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
+	def __init__(self, filename):
+		self.stat = os.stat(filename)
+
+		# gimpformats requires an explicit string otherwise it falls back to BytesIO
+		super().__init__(str(filename))
+
 		self.layer_tree = get_layer_tree(self)
 
 
@@ -30,7 +35,7 @@ DOCUMENT_CACHE = {}  # maintain a cache of opened GimpDocuments
 
 
 
-TEXTURE_VARIANTS = (
+VARIANT_TYPES = (
 	'diffuse',
 	'norm',
 	'bump',
@@ -39,6 +44,7 @@ TEXTURE_VARIANTS = (
 	'pants',
 	'shirt',
 )
+TEXTURE_VARIANTS = VARIANT_TYPES
 
 
 
@@ -92,6 +98,7 @@ def get_layer_tree(document: GimpDocument):
 
 def apply_masks(group: dict, parent_mask: Image = None):
 	group_mask = None
+
 	if 'layer' in group:
 		group_mask = getattr(group['layer'], 'mask')
 
@@ -133,21 +140,6 @@ def apply_masks(group: dict, parent_mask: Image = None):
 
 
 
-def update_visible_layers(document: GimpDocument, layers: list[str]):
-	for layer in document.layers:
-		if layer.name == 'Background' or layer.name in layers:
-			layer.visible = True
-		else:
-			layer.visible = False
-
-
-
-def render_texture(document: Document, layers: list[str]):
-	update_visible_layers(document, layers)
-	return flattenAll(document, (document.width, document.height))
-
-
-
 def render_textures(textures: dict, output_dir: str):
 	for texture_name, texture_def in textures.items():
 		document = get_document(texture_def['src'])
@@ -171,9 +163,99 @@ def render_textures(textures: dict, output_dir: str):
 				if not filepath.parent.exists():
 					os.mkdir(filepath.parent)
 
-				print("Save to %s" % filepath)
+				log.info("Save to %s" % filepath)
 
 				image.save(filepath)
+
+
+
+class Texture:
+	def __init__(self, name, document, definition):
+		self.name = name
+		self.document = document
+		self.definition = definition
+		self.width = document.width
+		self.height = document.height
+
+	def render(self) -> dict:
+		variants = {}
+
+		for variant_name, variant_definition in [
+			(k, v)
+			for k, v
+			in self.definition.items()
+			if k in TEXTURE_VARIANTS
+		]:
+			variants[variant_name] = TextureVariant(self.document, variant_definition).render()
+
+		if 'bump' not in variants:
+			variants['bump'] = self.default_bump()
+
+		if 'gloss' not in variants:
+			variants['gloss'] = self.default_gloss()
+
+		return variants
+
+	def has_variant(self, variant_type) -> bool:
+		if variant_type in self.variants:
+			return True
+
+		return False
+
+	def default_gloss(self) -> Image:
+		# create new black image
+		return Image.new(
+			'RGBA',
+			(self.width, self.height),
+			(0, 0, 0, 255),
+		)
+
+	def default_bump(self) -> Image:
+		# create new grey image
+		return Image.new(
+			'RGBA',
+			(self.width, self.height),
+			(128, 128, 128, 255),
+		)
+
+
+
+class TextureVariant:
+	def __init__(self, document, definition):
+		self.document = document
+		self.definition = definition
+		self.width = document.width
+		self.height = document.height
+
+	def render(self) -> Image:
+		document = copy(self.document)
+
+		for layer in document.layers:
+			if layer.name == 'Background' or layer.name in self.definition:
+				layer.visible = True
+			else:
+				layer.visible = False
+
+		return flattenAll(
+			document,
+			(
+				self.width,
+				self.height,
+			)
+		)
+
+
+
+def new_render_textures(source_directory: Path, definitions: dict):
+	document_cache = DocumentCache(source_directory)
+	textures = {}
+
+	for name, definition in definitions.items():
+		xcf_document_name = definition['src']
+		xcf_document = document_cache.get(xcf_document_name)
+		textures[name] = Texture(name, xcf_document, definition).render()
+
+	return textures
 
 
 
@@ -191,54 +273,45 @@ class DocumentCache:
 			return self.cache[name]
 
 		filepath = self._make_filepath(name)
-		# gimpformats requires an explicit string otherwise it falls back to BytesIO
-		document = GimpDocument(str(filepath))
-		mtime = os.stat(filepath).st_mtime
 
-		self.cache[name] = {
-			'path': filepath,
-			'document': document,
-			'mtime': mtime,
-		}
+		document = Document(filepath)
+
+		log.debug(dir(document))
+		self.cache[name] = document
 
 		return self.cache[name]
-
-	def get_document(self, name) -> GimpDocument:
-		return self.get(name)['document']
-
-	def get_mtime(self, name) -> float:
-		return self.get(name)['mtime']
 
 
 
 class TextureBuilder:
-	def __init__(self):
-		pass
+	def __init__(
+		self,
+		texture_definitions: dict,
+		source_directory: Path,
+	):
+		self.texture_definitions = texture_definitions
+		self.cache = DocumentCache(source_directory)
 
+	def save(self, destination_directory: Path, extension: str = "tga"):
+		for name, definition in self.texture_definitions.items():
+			xcf_document_name = definition['src']
+			xcf_document = self.cache.get(xcf_document_name)
 
+			texture = Texture(name, xcf_document, definition).render()
 
-class Texture:
-	def __init__(self, definition: dict):
-		pass
+			for variant_type, variant_image in texture.items():
+				if variant_type == 'diffuse':
+					filename = f"{name}.{extension}"
+				else:
+					filename = f"{name}_{variant_type}.{extension}"
 
-	def render_variant(self):
-		pass
+				variant_filepath = destination_directory.joinpath(filename)
 
-	def save(self):
-		pass
+				if not variant_filepath.parent.exists():
+					os.mkdir(variant_filepath.parent)
 
-
-
-
-class TextureVariant:
-	def __init__(self, name: str, type: str, document: GimpDocument, definition: dict):
-		pass
-
-	def render(self, document: GimpDocument, layers: list):
-		pass
-
-	def save(self, output_directory: Path):
-		pass
+				log.info(f"Saving {variant_filepath.resolve()}")
+				variant_image.save(variant_filepath.resolve())
 
 
 
@@ -309,11 +382,11 @@ if __name__ == "__main__":
 
 	with open(args.infile, 'r') as yaml_file:
 		texture_defs = yaml.safe_load(yaml_file)
-	render_textures(texture_defs, args.outdir)
+
+	texture_builder = TextureBuilder(texture_defs, args.src)
+	texture_builder.save(args.outdir)
 
 	current, peak = tracemalloc.get_traced_memory()
 	tracemalloc.stop()
 
 	print(f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
-
-
