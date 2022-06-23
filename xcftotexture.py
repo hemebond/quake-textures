@@ -1,6 +1,6 @@
 import os
 import shutil
-from argparse import ArgumentParser, Action
+from argparse import ArgumentParser, Action, RawDescriptionHelpFormatter
 from pathlib import Path
 import logging
 import tracemalloc
@@ -27,7 +27,32 @@ class Document(GimpDocument):
 		# gimpformats requires an explicit string otherwise it falls back to BytesIO
 		super().__init__(str(filename))
 
-		self.layer_tree = get_layer_tree(self)
+		self.layer_tree = self.get_layers_as_tree()
+		apply_masks(self.layer_tree)
+
+	def get_layers_as_tree(self):
+		layer_tree = {
+			'children': [],
+		}
+		for idx, layer in enumerate(self.layers):
+			parent = layer_tree
+
+			if layer.itemPath:
+				layer.itemPath.pop()
+
+				parent = layer_tree
+				for level_idx in layer.itemPath:
+					parent = parent['children'][level_idx]
+
+			if layer.isGroup:
+				parent['children'].append({
+					'layer': layer,
+					'children': [],
+				})
+			else:
+				parent['children'].append(layer)
+
+		return layer_tree
 
 
 
@@ -177,6 +202,8 @@ class Texture:
 		self.width = document.width
 		self.height = document.height
 
+		apply_masks(self.document.layer_tree)
+
 	def render(self) -> dict:
 		variants = {}
 
@@ -268,18 +295,19 @@ class DocumentCache:
 		log.debug(Path(self.source_directory, f"{name}.xcf"))
 		return Path(self.source_directory, f"{name}.xcf")
 
-	def get(self, name: str) -> dict:
+	def get(self, name: str) -> Document:
 		if name in self.cache:
 			return self.cache[name]
-
+		log.debug(f"name: {name}")
 		filepath = self._make_filepath(name)
-
+		log.debug(f"filepath: {filepath}")
 		document = Document(filepath)
 
-		log.debug(dir(document))
+		# log.debug(dir(document))
 		self.cache[name] = document
 
-		return self.cache[name]
+		return document
+
 
 
 
@@ -297,21 +325,47 @@ class TextureBuilder:
 			xcf_document_name = definition['src']
 			xcf_document = self.cache.get(xcf_document_name)
 
+			diffuse_filepath = self.get_variant_filepath(
+				name,
+				'diffuse',
+				extension,
+				destination_directory,
+			)
+
+			try:
+				diffuse_mtime = os.stat(diffuse_filepath).st_mtime
+
+				# If the source file hasn't changed, don't re-render
+				if diffuse_mtime > xcf_document.stat.st_mtime:
+					log.debug(f"Skipping {diffuse_filepath}")
+					continue
+			except FileNotFoundError:
+				pass
+
 			texture = Texture(name, xcf_document, definition).render()
 
 			for variant_type, variant_image in texture.items():
-				if variant_type == 'diffuse':
-					filename = f"{name}.{extension}"
-				else:
-					filename = f"{name}_{variant_type}.{extension}"
-
-				variant_filepath = destination_directory.joinpath(filename)
+				variant_filepath = self.get_variant_filepath(
+					name,
+					variant_type,
+					extension,
+					destination_directory,
+				)
 
 				if not variant_filepath.parent.exists():
 					os.mkdir(variant_filepath.parent)
 
 				log.info(f"Saving {variant_filepath.resolve()}")
 				variant_image.save(variant_filepath.resolve())
+
+	def get_variant_filepath(self, name, variant_type, extension, destination_directory):
+		if variant_type == 'diffuse':
+			filename = f"{name}.{extension}"
+		else:
+			filename = f"{name}_{variant_type}.{extension}"
+
+		return destination_directory.joinpath(filename)
+
 
 
 
@@ -331,7 +385,9 @@ class LogLevelMapperAction(Action):
 
 if __name__ == "__main__":
 	parser = ArgumentParser(
-		description="Generate texture variants from a set of definitions."
+		description="Generate texture variants, from a set of definitions, directly from XCF files.",
+		epilog='''Example: python $(prog) xcftotexture.yml ~/.darkplaces/id1_tex/textures/''',
+		formatter_class=RawDescriptionHelpFormatter,
 	)
 	parser.add_argument(
 		"infile",
