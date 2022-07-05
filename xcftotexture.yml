@@ -372,6 +372,36 @@ ceil1_1:
   diffuse: [ceil1_1.tga]
   glow: [Glow Mask, ceil1_1.tga]
 
+carch03:
+  src: carch03
+  diffuse: [carch03.tga]
+  bump:
+    - bump
+    - bumpbg
+  gloss:
+    - gloss
+
+carch04_1: &carch04
+  src: carch04
+  diffuse: [carch04_1.tga]
+  bump:
+    - bump 100
+    - bump 90
+    - bump 80
+    - bump 70
+    - bump carch04_1
+    - bump bg
+carch04_2:
+  <<: *carch04
+  diffuse: [carch04_2.tga]
+  bump:
+    - bump 100
+    - bump 90
+    - bump 80
+    - bump 70
+    - bump bg
+
+
 church7:
   src: church7
   diffuse: [church7.tga]
@@ -382,6 +412,12 @@ church7:
     - bump bevels copy
     - Pasted Layer
     - background copy
+
+city1_4:
+  src: city1_4
+  diffuse: [city1_4.tga]
+  bump:
+    - bump
 
 city1_7:
   src: city1_7
@@ -416,6 +452,28 @@ city2_7:
 city2_8:
   <<: *city2_1
   diffuse: [city2_8.tga]
+
+
+city4_1: &city4_1
+  src: city4_
+  diffuse: [city4_1.tga]
+  bump:
+    - bump
+city4_2:
+  <<: *city4_1
+  diffuse: [city4_2.tga]
+city4_5:
+  <<: *city4_1
+  diffuse: [city4_5.tga]
+city4_6:
+  <<: *city4_1
+  diffuse: [city4_6.tga]
+city4_7:
+  <<: *city4_1
+  diffuse: [city4_7.tga]
+city4_8:
+  <<: *city4_1
+  diffuse: [city4_8.tga]
 
 city5_1:
   src: city5
@@ -462,6 +520,18 @@ city5_8:
     - bump 1
     - bump 0
     - background
+
+city6_3:
+  src: city3
+  diffuse: [city3_2.tga]
+  bump:
+    - bump
+city6_4:
+  src: city3
+  diffuse: [city3_4.tga]
+  bump:
+    - bump
+
 
 city6_7: &city6_7
   src: city6_7
@@ -586,6 +656,25 @@ cop2_6:
     - bump
     - bump background
 
+
+crate0_side: &crate0_side
+  src: crate
+  diffuse: [crate0_side.tga]
+  bump:
+    - side bump
+crate1_side:
+  <<: *crate0_side
+  diffuse: [crate1_side.tga]
+crate0_top: &crate0_top
+  src: crate
+  diffuse: [crate0_top.tga]
+  bump:
+    - top bump
+crate1_top:
+  <<: *crate0_top
+  diffuse: [crate0_top.tga]
+
+
 dem4_1:
   src: dem
   diffuse: [dem4_1.tga]
@@ -607,6 +696,14 @@ demc4_4:
     - bump 1
     - bump 0
     - bump_bg
+
+
+door02_7:
+  src: door02_7
+  diffuse: [door02_7.tga]
+  bump:
+    - bump
+
 
 dr01_1: &dr0
   src: dr0
@@ -710,6 +807,17 @@ key01_2:
   diffuse: [key01_2.tga]
   glow: [key01_2_glow]
 
+
+key01_3:
+  src: key01_3
+  diffuse: [key01_3.tga]
+  bump:
+    - bump rivets
+    - bump
+    - "bump #1"
+    - "bump #2"
+    - bg
+
 key02_1: &key02
   src: key02
   diffuse: [key02_1]
@@ -739,6 +847,17 @@ key03_2:
     - key03_2 glow
 
 
+key03_3:
+  src: key03_3
+  diffuse: [key03_3.tga]
+  bump:
+    - "bump #2"
+    - "bump #1"
+    - "bump"
+    - "bump #3"
+    - "bg"
+
+
 
 light1_1:
   src: light1_
@@ -756,19 +875,81 @@ light1_3:
   bump: [light1_3 bump]
   gloss: [light1_3 gloss]
   glow: [light1_3 glow]
+light1_4: &light1_4
+  src: light1_
+  diffuse: [light1_4.tga]
+  bump:
+    - light1_4 bump
+light1_7:
+  <<: *light1_4
+  diffuse: [light1_7.tga]
+light1_8:
+  <<: *light1_4
+  diffuse: [light1_8.tga]
+light3_3:
+  <<: *light1_4
+  diffuse: [light3_3.tga]
+
+
+
+
+light1_5:
+  src: light1_5
+  diffuse: [light1_5.tga]
+  bump:
+    - bump rivets
+    - bump panels
+    - bg
+  gloss:
+    - gloss
+    - gloss bg
 
 
 
 med3_0:
+  src: +0_med25
   bump: [bump]
   diffuse: [glow_colour, med3_0.tga]
   glow: [glow_mask, glow_colour, med3_0.tga]
-  src: +0_med25
 med3_1:
+  src: +0_med25s
   bump: [bump]
   diffuse: [glow_colour, med3_1.tga]
   glow: [glow_mask, glow_colour, med3_1.tga]
-  src: +0_med25s
+
+
+metal1_4: &metal1_4
+  src: metal1
+  diffuse: [metal1_4.tga]
+  bump:
+    - bump rivets
+    - bump background
+  gloss:
+    - gloss rivets
+    - gloss background
+metal1_5:
+  <<: *metal1_4
+  diffuse: [metal1_5.tga]
+metal2_3:
+  <<: *metal1_4
+  diffuse: [metal2_3.tga]
+
+
+metal2_4:
+  src: metal2_4
+  diffuse: [metal2_4.tga]
+  bump:
+    - rivets bump
+    - bump 1
+    - bump 2
+    - bump 3
+    - bump 4
+    - bump 5
+    - background bump
+  gloss:
+    - rivets gloss
+    - gloss background
+
 
 metal5_2: &metal5_2
   src: metal5_2
@@ -808,6 +989,45 @@ metal5_6:
   gloss:
     - gloss
 
+
+metal6_1: &metal6_1
+  src: metal6
+  diffuse: [metal6_1.tga]
+  bump:
+    - bump 6_1
+    - rivets bump
+    - bump background
+  gloss:
+    - gloss 6_1
+    - rivets gloss
+    - gloss background
+metal6_2:
+  <<: *metal6_1
+  diffuse: [metal6_2.tga]
+  bump:
+    - bump 6_2
+    - rivets bump
+    - bump background
+  gloss:
+    - gloss 6_2
+    - rivets gloss
+    - gloss background
+
+
+metal6_3: &metal6_3
+  src: metal6_3
+  diffuse: [metal6_3.tga]
+  bump:
+    - bump
+    - background
+  gloss:
+    - gloss
+    - gloss background
+metal6_4:
+  <<: *metal6_3
+  diffuse: [metal6_4.tga]
+
+
 metalt1_1:
   diffuse: [metalt1_1.tga]
   bump: [bump, bump background]
@@ -828,6 +1048,26 @@ metal4_2:
   diffuse: [metal4_2.tga]
   bump: [bump, bump bg]
   src: metal4_2
+
+
+metal4_4:
+  src: metal4_4
+  diffuse:
+    - diffuse
+  bump:
+    - bump
+    - bump bg
+
+
+metal4_7: &metal4_7
+  src: metal4_7
+  diffuse: [metal4_7]
+  bump:
+    - bump rivets
+    - bump panels
+    - bump base
+wmet4_7:
+  <<: *metal4_7
 
 mmetal1_2: &mmetal1_2
   src: mmetal1_2
@@ -906,6 +1146,20 @@ rock3_2:
   bump: [bump1, bump0, background]
   diffuse: [rock3_2.tga]
   src: rock3_2
+rock3_7:
+  src: rock3_7
+  diffuse: [rock3_7.tga]
+  bump:
+    - bump
+    - bump_bg
+rock3_8:
+  src: rock3_8
+  diffuse: [rock3_8.tga]
+  bump:
+    - bump
+    - background bump
+
+
 rock4_1:
   src: rock4_1
   diffuse: [rock4_1.tga]
@@ -913,6 +1167,121 @@ rock4_1:
 rock4_2:
   <<: *rock1_2
   diffuse: [rock4_2.tga]
+rock5_2:
+  src: rock5_2
+  diffuse: [rock5_2.tga]
+  bump:
+    - bump bg
+    - bump base
+
+
+rune1_1: &rune1_1
+  src: rune1_
+  diffuse: [rune1_1.tga]
+  bump:
+    - rune1_1 bump
+    - bump 2
+    - bump bg
+rune1_4:
+  <<: *rune1_1
+  diffuse: [rune1_4.tga]
+  bump:
+    - rune1_1 bump
+    - bump 2
+    - bump bg
+rune1_5:
+  <<: *rune1_1
+  diffuse: [rune1_5.tga]
+  bump:
+    - rune1_1 bump
+    - bump 2
+    - bump bg
+rune1_6:
+  <<: *rune1_1
+  diffuse: [rune1_6.tga]
+  bump:
+    - rune1_1 bump
+    - bump 2
+    - bump bg
+rune1_7:
+  <<: *rune1_1
+  diffuse: [rune1_7.tga]
+  bump:
+    - rune1_1 bump
+    - bump 2
+    - bump bg
+rune2_1:
+  <<: *rune1_1
+  diffuse: [rune2_1.tga]
+rune2_3:
+  <<: *rune1_1
+  diffuse: [rune2_3.tga]
+  bump:
+    - rune1_4 bump
+    - bump 2
+    - bump bg
+rune2_5:
+  <<: *rune1_1
+  diffuse: [rune2_5.tga]
+  bump:
+    - rune1_5 bump
+    - bump 2
+    - bump bg
+rune2_2:
+  <<: *rune1_1
+  diffuse: [rune2_2.tga]
+rune2_4:
+  <<: *rune1_1
+  diffuse: [rune2_4.tga]
+rune_a:
+  <<: *rune1_1
+  diffuse: [rune_a.tga]
+
+
+sfloor4_1: &sfloor4_1
+  src: sfloor4_1
+  diffuse: [sfloor4_1.tga]
+  bump:
+    - bump
+  gloss:
+    - gloss
+    - gloss bg
+sfloor4_2:
+  <<: *sfloor4_1
+  diffuse: [sfloor4_2.tga]
+sfloor4_6:
+  <<: *sfloor4_1
+  diffuse: [sfloor4_6.tga]
+
+
+sfloor4_5: &sfloor4_5
+  src: sfloor4_5
+  diffuse: [sfloor4_5.tga]
+  bump:
+    - bump
+    - bump bg
+sfloor4_7:
+  <<: *sfloor4_5
+  diffuse: [sfloor4_7.tga]
+sfloor4_8:
+  <<: *sfloor4_5
+  diffuse: [sfloor4_8.tga]
+
+
+slip1:
+  src: slip1
+  diffuse: [slip1.tga]
+  bump:
+    - "bump 0"
+    - "bump 1 #3"
+    - "bump 1 #1"
+  gloss:
+    - gloss
+  glow:
+    - glow
+
+
+
 
 +0slipbot: &slipbot
   src: +0slipbot
@@ -933,6 +1302,57 @@ switch_1:
   diffuse: [switch_1.tga]
   glow: [glow]
   src: switch_1
+
+
+swtch1_1:
+  src: swtch1_1
+  diffuse: [swtch1_1.tga]
+  bump:
+    - bump
+    - bump bg
+
+
+tech01_1:
+  src: tech01_1
+  diffuse: [tech01_1.tga]
+  bump:
+    - bump pipes
+    - bump wires
+  gloss:
+    - gloss
+    - gloss bg
+tech01_2:
+  src: tech01_2
+  diffuse: [tech01_2.tga]
+  bump:
+    - bump
+    - bump bg
+  gloss:
+    - gloss
+    - gloss bg
+tech01_3:
+  src: tech01_3
+  diffuse: [tech01_3.tga]
+  bump:
+    - bump
+    - bump bg
+  gloss:
+    - gloss
+    - gloss bg
+
+
+tech01_7:
+  src: tech01_7
+  diffuse: [tech01_7.tga]
+  bump:
+    - bump 3
+    - bump 2
+    - bump 1
+    - bump 0
+  gloss:
+    - gloss 1
+    - gloss 0
+
 
 tech02_1:
   src: tech02_1
