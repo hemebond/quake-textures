@@ -1665,6 +1665,52 @@ wenter01:
 wexit01:
   <<: *exit01
 
+
+window1_2:
+  src: window1
+  diffuse: [window1_2.tga]
+  bump:
+    - bump
+    - bump frame
+    - background bump
+  gloss:
+    - gloss
+    - gloss frame
+    - background gloss
+window1_3:
+  src: window1
+  diffuse: [window1_3.tga]
+  bump:
+    - bump
+    - bump frame
+    - background bump
+  gloss:
+    - gloss
+    - gloss frame
+    - background gloss
+window1_4:
+  src: window1
+  diffuse: [window1_4.tga]
+  bump:
+    - "bump #1"
+    - bump frame
+    - background bump
+  gloss:
+    - "gloss #1"
+    - gloss frame
+    - background gloss
+wizwin1_8:
+  src: window1
+  diffuse: [wizwin1_8.tga]
+  bump:
+    - "bump #2"
+    - "frame 2"
+    - background bump
+  gloss:
+    - "gloss #2"
+    - background gloss
+
+
 wiz1_4:
   src: wiz1_4
   diffuse: [wiz1_4.tga]
