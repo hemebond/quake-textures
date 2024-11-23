@@ -8,7 +8,7 @@ from typing import Union, TextIO, IO
 from copy import copy
 
 import yaml
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageFilter, ImageOps
 from gimpformats.gimpXcfDocument import GimpDocument, flattenAll
 from gimpformats.GimpLayer import GimpLayer
 
@@ -181,7 +181,7 @@ def render_textures(textures: dict, output_dir: str):
 				if variant_name == 'diffuse':
 					filename = "%s.tga" % texture_name
 				else:
-					filename = "%s_%s.tga" % (texture_name, variant_name)
+					filename = "%s_%s.jpg" % (texture_name, variant_name)
 
 				filepath = Path(os.path.join(output_dir, filename))
 
@@ -214,6 +214,10 @@ class Texture:
 			if k in TEXTURE_VARIANTS
 		]:
 			variants[variant_name] = TextureVariant(self.document, variant_definition).render()
+
+			if variant_name == 'bump':
+				# FTEQW refuses to load bump textures that are not grayscale
+				variants[variant_name] = ImageOps.grayscale(variants[variant_name])
 
 		if 'bump' not in variants:
 			variants['bump'] = self.default_bump()
@@ -356,11 +360,22 @@ class TextureBuilder:
 					os.mkdir(variant_filepath.parent)
 
 				log.info(f"Saving {variant_filepath.resolve()}")
-				variant_image.save(variant_filepath.resolve())
+
+				if extension == 'jpg':
+					if variant_image.mode == 'RGBA':
+						log.info("Converting to RGB")
+						variant_image = variant_image.convert('RGB')
+
+					variant_image.save(variant_filepath.resolve(), quality=95, optimize=True)
+				else:
+					variant_image.save(variant_filepath.resolve())
 
 	def get_variant_filepath(self, name, variant_type, extension, destination_directory):
 		if variant_type == 'diffuse':
-			filename = f"{name}.{extension}"
+			if name.startswith("{"):
+				filename = f"{name}.tga"
+			else:
+				filename = f"{name}.{extension}"
 		else:
 			filename = f"{name}_{variant_type}.{extension}"
 
@@ -419,7 +434,7 @@ if __name__ == "__main__":
 	parser.add_argument(
 		"-f",
 		"--format",
-		default="tga",
+		default="jpg",
 		type=str,
 		help="Image format to use. (TODO)"
 	)
@@ -440,7 +455,7 @@ if __name__ == "__main__":
 		texture_defs = yaml.safe_load(yaml_file)
 
 	texture_builder = TextureBuilder(texture_defs, args.src)
-	texture_builder.save(args.outdir)
+	texture_builder.save(args.outdir, extension=args.format)
 
 	current, peak = tracemalloc.get_traced_memory()
 	tracemalloc.stop()

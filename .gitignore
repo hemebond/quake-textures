@@ -123,3 +123,7 @@ pip-selfcheck.json
 
 
 /testing
+
+# Project Ignores
+/textures
+/dist

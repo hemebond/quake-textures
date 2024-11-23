@@ -9,6 +9,11 @@
   bump: [bump rivets, bump frame, bump casing bg, bump base]
   glow: [glow_mask, glow_colour]
   diffuse: [+0_box_side.tga]
++0butn: &butn
+  src: +0butn
+  bump: [bump]
+  glow: [+0butn.tga, glow]
+  diffuse: [+0butn.tga]
 +0button:
   src: +0button
   diffuse: [+0button.tga]
@@ -65,6 +70,11 @@
   bump: [bump rivets, bump frame, bump casing bg, bump base]
   glow: [glow_mask, glow_colour]
   diffuse: [+1_box_side.tga]
++1butn:
+  <<: *butn
+  diffuse: [+1butn.tga]
+  glow: [+1butn.tga, glow]
+  bump: [bump]
 +1button:
   diffuse: [+0button.tga]
   glow: [glow 1]
@@ -95,6 +105,11 @@
   diffuse: *id005
   glow: [glow_mask, +1shoot.tga]
   src: +0shoot
++2butn:
+  <<: *butn
+  diffuse: [+2butn.tga]
+  glow: [+2butn.tga, glow]
+  bump: [bump]
 +2button:
   diffuse: [+0button.tga]
   glow: [glow 2]
@@ -120,6 +135,11 @@
   diffuse: *id005
   glow: [glow_mask, +2shoot.tga]
   src: +0shoot
++3butn:
+  <<: *butn
+  diffuse: [+3butn.tga]
+  glow: [+3butn.tga, glow]
+  bump: [bump]
 +3button:
   diffuse: [+0button.tga]
   glow: [glow 3]
@@ -145,6 +165,11 @@
   diffuse: *id005
   glow: [glow_mask, +3shoot.tga]
   src: +0shoot
++abutn:
+  <<: *butn
+  diffuse: [+abutn.tga]
+  glow: [+abutn.tga, glow]
+  bump: [bump]
 +abasebtn:
   src: +0basebtn
   bump: [bump, "bump #1", "bump #2"]
@@ -875,11 +900,24 @@ light1_3:
   bump: [light1_3 bump]
   gloss: [light1_3 gloss]
   glow: [light1_3 glow]
+
 light1_4: &light1_4
   src: light1_
   diffuse: [light1_4.tga]
   bump:
     - light1_4 bump
+
+light1_5:
+  src: light1_5
+  diffuse: [light1_5.tga]
+  bump:
+    - bump rivets
+    - bump panels
+    - bg
+  gloss:
+    - gloss
+    - gloss bg
+
 light1_7:
   <<: *light1_4
   diffuse: [light1_7.tga]
@@ -892,17 +930,45 @@ light3_3:
 
 
 
-
-light1_5:
-  src: light1_5
-  diffuse: [light1_5.tga]
+light3_5:
+  src: light3_5
+  diffuse: [light3_5]
   bump:
-    - bump rivets
-    - bump panels
-    - bg
+    - light3_5 bump
   gloss:
-    - gloss
-    - gloss bg
+    - light3_5 glow
+light3_6:
+  src: light3_5
+  diffuse: [light3_6]
+  bump:
+    - light3_6 bump
+  gloss:
+    - light3_6 glow
+
+
+
+light3_7:
+  src: light3
+  diffuse: [light3_7.tga]
+  bump:
+    - rivets bump
+    - bump background
+  gloss:
+    - rivets gloss
+    - background gloss
+  # glow:
+  #   - glow_3_7
+light3_8:
+  src: light3
+  diffuse: [light3_8.tga]
+  bump:
+    - rivets bump
+    - bump background
+  gloss:
+    - rivets gloss
+    - background gloss
+  # glow:
+  #   - glow_3_8
 
 
 
@@ -1061,7 +1127,7 @@ metal4_4:
 
 metal4_7: &metal4_7
   src: metal4_7
-  diffuse: [metal4_7]
+  diffuse: [metal4_7.tga]
   bump:
     - bump rivets
     - bump panels
@@ -1280,6 +1346,16 @@ slip1:
   glow:
     - glow
 
+sliplite:
+  src: sliplite
+  diffuse: sliplite.tga
+  glow: [glow]
+
+slipside:
+  src: slipside
+  diffuse: slipside.tga
+  glow: [glow]
+
 
 
 
@@ -1352,6 +1428,11 @@ tech01_7:
   gloss:
     - gloss 1
     - gloss 0
+
+tech01_9:
+  src: tech01_9
+  diffuse: tech01_9.tga
+  bump: [bump]
 
 
 tech02_1:
@@ -1660,8 +1741,17 @@ wbrick1_5:
   src: wbrick1_5
   diffuse: [wbrick1_5.tga]
   bump: [bump]
+
+wceiling4:
+  src: wceiling4
+  diffuse: wceiling4.tga
+  bump: [bump]
+  gloss: [gloss]
+
+
 wenter01:
   <<: *enter01
+
 wexit01:
   <<: *exit01
 
@@ -1730,13 +1820,12 @@ wizwood1_4: &wizwood1_4
 
 wizwood1_5: &wizwood1_5
   src: wizwood1
-  diffuse: [wizwood1_5.tga]
+  diffuse: [wizwood1_5]
   bump:
     - bump
-    - bump_bg
 wizwood1_8:
   <<: *wizwood1_5
-  diffuse: [wizwood1_8.tga]
+  diffuse: [wizwood1_8]
 
 wizwood1_6: &wizwood1_6
   src: wizwood1_6
@@ -1790,6 +1879,7 @@ wswamp1_4:
     - bump vines
     - bump bricks
     - bump background
+
 wswamp2_1:
   src: wbrick1_5
   bump: [bump]
@@ -1797,6 +1887,7 @@ wswamp2_1:
   gloss:
     - gloss wswamp2_1
     - Background
+
 wswamp2_2:
   src: wbrick1_5
   diffuse: [wswamp2_2.tga]

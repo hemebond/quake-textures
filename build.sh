@@ -1,9 +1,7 @@
 out_dir="$HOME/.darkplaces/id1_tex/textures"
-./build.py --output "$out_dir/"
+python -m build --output "$out_dir/"
 
-maps="e1m5 e1m7 e2m2 e2m3 e2m4 e2m5 e2m6 e3m3 e3m4 e4m7"
-
-for map in $maps
+for map in "e1m5 e1m7 e2m2 e2m3 e2m4 e2m5 e2m6 e3m3 e3m4 e4m7"
 do
 	mkdir -p "$out_dir/$map"/
 
