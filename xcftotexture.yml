@@ -1,23 +1,119 @@
+#
+# basebtn
+#
 +0basebtn:
   src: +0basebtn
   bump: [bump, "bump #1", "bump #2"]
   gloss: [gloss]
   glow: [glow, +0basebtn.tga]
   diffuse: [+0basebtn.tga]
++1basebtn:
+  src: +0basebtn
+  bump: [bump, "bump #1", "bump #2"]
+  gloss: [gloss]
+  glow: [glow, +1basebtn.tga]
+  diffuse: [+1basebtn.tga]
++abasebtn:
+  src: +0basebtn
+  bump: [bump, "bump #1", "bump #2"]
+  gloss: [gloss]
+  glow: [glow, +abasebtn.tga]
+  diffuse: [+abasebtn.tga]
+
 +0_box_side:
   src: +0_box_side
   bump: [bump rivets, bump frame, bump casing bg, bump base]
   glow: [glow_mask, glow_colour]
   diffuse: [+0_box_side.tga]
+
+#
+# butn
+#
 +0butn: &butn
   src: +0butn
   bump: [bump]
   glow: [+0butn.tga, glow]
   diffuse: [+0butn.tga]
++1butn:
+  <<: *butn
+  diffuse: [+1butn.tga]
+  glow: [+1butn.tga, glow]
+  bump: [bump]
++2butn:
+  <<: *butn
+  diffuse: [+2butn.tga]
+  glow: [+2butn.tga, glow]
+  bump: [bump]
++3butn:
+  <<: *butn
+  diffuse: [+3butn.tga]
+  glow: [+3butn.tga, glow]
+  bump: [bump]
++abutn:
+  <<: *butn
+  diffuse: [+abutn.tga]
+  glow: []
+  bump: [bump]
+
+#
+# butnn
+#
++0butnn: &butnn
+  <<: *butn
+  bump: [bump]
+  glow: [+0butnn.tga, glow]
+  diffuse: [+0butnn.tga]
++1butnn:
+  <<: *butnn
+  bump: [bump]
+  glow: [+1butnn.tga, glow]
+  diffuse: [+1butnn.tga]
++2butnn:
+  <<: *butnn
+  bump: [bump]
+  glow: [+2butnn.tga, glow]
+  diffuse: [+2butnn.tga]
++3butnn:
+  <<: *butnn
+  bump: [bump]
+  glow: [+3butnn.tga, glow]
+  diffuse: [+3butnn.tga]
++abutnn:
+  <<: *butnn
+  bump: [bump]
+  glow: []
+  diffuse: [+abutnn.tga]
+
+#
+# button
+#
 +0button:
   src: +0button
   diffuse: [+0button.tga]
   bump: [background, bump 0, bump 1, bump 2]
++1button:
+  diffuse: [+0button.tga]
+  glow: [glow 1]
+  bump: [background, bump 0, bump 1, bump 2]
+  src: +0button
++2button:
+  diffuse: [+0button.tga]
+  glow: [glow 2]
+  bump: [background, bump 0, bump 1, bump 2]
+  src: +0button
++3button:
+  diffuse: [+0button.tga]
+  glow: [glow 3]
+  bump: [background, bump 0, bump 1, bump 2]
+  src: +0button
++abutton:
+  diffuse: [+abutton.tga]
+  bump: [bump]
+  src: +0button
+
+#
+# floorsw
+#
 +0floorsw: &floorsw
   src: +0floorsw
   diffuse: [+0floorsw.tga]
@@ -34,157 +130,74 @@
 +afloorsw:
   <<: *floorsw
   diffuse: [+afloorsw.tga]
-+0_med100:
-  bump: &id001 [bump]
-  diffuse: [glow_colour, +0_med100.tga]
-  gloss: &id002 [gloss]
-  glow: [glow_mask, glow_colour, glow_brighten, +0_med100.tga]
-  src: +0_med100
-+0_med25:
-  bump: &id003 [bump]
-  diffuse: [glow_colour, +0_med25]
-  glow: [glow_mask, glow_colour, +0_med25]
-  src: +0_med25
-+0_med25s:
-  bump: [bump]
-  diffuse: [glow_colour, +0_med25s.tga]
-  glow: [glow_mask, glow_colour, +0_med25s.tga]
-  src: +0_med25s
+
+#
+# light01
+#
++0light01: &light01
+  src: +0light01
+  diffuse: [+0light01.tga]
+  glow: [+0light01.tga, glow]
++1light01:
+  <<: *light01
+  diffuse: [+1light01.tga]
+  glow: [+1light01.tga, glow]
++2light01:
+  <<: *light01
+  diffuse: [+2light01.tga]
+  glow: [+2light01.tga, glow]
+
+#
+# planet
+#
 +0planet:
   diffuse: [+0planet.tga]
   glow: [glow_mask, +0planet.tga]
   src: +0planet
++1planet:
+  diffuse: [+1planet.tga]
+  glow: [glow_mask, +1planet.tga]
+  src: +0planet
++2planet:
+  diffuse: [+2planet.tga]
+  glow: [glow_mask, +2planet.tga]
+  src: +0planet
++3planet:
+  diffuse: [+3planet.tga]
+  glow: [glow_mask, +3planet.tga]
+  src: +0planet
+
+#
+# shoot
+#
 +0shoot:
   bump: &id004 [bump]
   diffuse: &id005 [+0shoot.tga]
   glow: [glow_mask, +0shoot.tga]
   src: +0shoot
-+1basebtn:
-  src: +0basebtn
-  bump: [bump, "bump #1", "bump #2"]
-  gloss: [gloss]
-  glow: [glow, +1basebtn.tga]
-  diffuse: [+1basebtn.tga]
-+1_box_side:
-  src: +0_box_side
-  bump: [bump rivets, bump frame, bump casing bg, bump base]
-  glow: [glow_mask, glow_colour]
-  diffuse: [+1_box_side.tga]
-+1butn:
-  <<: *butn
-  diffuse: [+1butn.tga]
-  glow: [+1butn.tga, glow]
-  bump: [bump]
-+1button:
-  diffuse: [+0button.tga]
-  glow: [glow 1]
-  bump: [background, bump 0, bump 1, bump 2]
-  src: +0button
-+1_med100:
-  bump: *id001
-  diffuse: [glow_colour, +1_med100.tga]
-  gloss: *id002
-  glow: [glow_mask, glow_colour, glow_brighten, +1_med100.tga]
-  src: +0_med100
-+1_med25:
-  bump: *id003
-  diffuse: [glow_colour, +1_med25]
-  glow: [glow_mask, glow_colour, +1_med25]
-  src: +0_med25
-+1_med25s:
-  bump: [bump]
-  diffuse: [glow_colour, +1_med25s.tga]
-  glow: [glow_mask, glow_colour, +1_med25s.tga]
-  src: +0_med25s
-+1planet:
-  diffuse: [+1planet.tga]
-  glow: [glow_mask, +1planet.tga]
-  src: +0planet
 +1shoot:
   bump: *id004
   diffuse: *id005
   glow: [glow_mask, +1shoot.tga]
   src: +0shoot
-+2butn:
-  <<: *butn
-  diffuse: [+2butn.tga]
-  glow: [+2butn.tga, glow]
-  bump: [bump]
-+2button:
-  diffuse: [+0button.tga]
-  glow: [glow 2]
-  bump: [background, bump 0, bump 1, bump 2]
-  src: +0button
-+2_med100:
-  bump: *id001
-  diffuse: [glow_colour, +2_med100.tga]
-  gloss: *id002
-  glow: [glow_mask, glow_colour, glow_brighten, +2_med100.tga]
-  src: +0_med100
-+2_med25:
-  bump: *id003
-  diffuse: [glow_colour, +2_med25]
-  glow: [glow_mask, glow_colour, +2_med25]
-  src: +0_med25
-+2planet:
-  diffuse: [+2planet.tga]
-  glow: [glow_mask, +2planet.tga]
-  src: +0planet
 +2shoot:
   bump: *id004
   diffuse: *id005
   glow: [glow_mask, +2shoot.tga]
   src: +0shoot
-+3butn:
-  <<: *butn
-  diffuse: [+3butn.tga]
-  glow: [+3butn.tga, glow]
-  bump: [bump]
-+3button:
-  diffuse: [+0button.tga]
-  glow: [glow 3]
-  bump: [background, bump 0, bump 1, bump 2]
-  src: +0button
-+3_med100:
-  bump: *id001
-  diffuse: [glow_colour, +3_med100.tga]
-  gloss: *id002
-  glow: [glow_mask, glow_colour, glow_brighten, +3_med100.tga]
-  src: +0_med100
-+3_med25:
-  bump: *id003
-  diffuse: [glow_colour, +3_med25]
-  glow: [glow_mask, glow_colour, +3_med25]
-  src: +0_med25
-+3planet:
-  diffuse: [+3planet.tga]
-  glow: [glow_mask, +3planet.tga]
-  src: +0planet
 +3shoot:
   bump: *id004
   diffuse: *id005
   glow: [glow_mask, +3shoot.tga]
   src: +0shoot
-+abutn:
-  <<: *butn
-  diffuse: [+abutn.tga]
-  glow: [+abutn.tga, glow]
-  bump: [bump]
-+abasebtn:
-  src: +0basebtn
-  bump: [bump, "bump #1", "bump #2"]
-  gloss: [gloss]
-  glow: [glow, +abasebtn.tga]
-  diffuse: [+abasebtn.tga]
-+abutton:
-  diffuse: [+abutton.tga]
-  bump: [bump]
-  src: +0button
 +ashoot:
   bump: [bump]
   diffuse: [+ashoot.tga]
   src: +0shoot
 
+#
+# slip
+#
 +0slip: &slip
   src: +0slip
   diffuse: [+0slip.tga]
@@ -225,6 +238,68 @@
   glow:
     - glow_mask
     - +6slip.tga
+
+
+
++0_med100:
+  bump: &id001 [bump]
+  diffuse: [glow_colour, +0_med100.tga]
+  gloss: &id002 [gloss]
+  glow: [glow_mask, glow_colour, glow_brighten, +0_med100.tga]
+  src: +0_med100
++0_med25:
+  bump: &id003 [bump]
+  diffuse: [glow_colour, +0_med25]
+  glow: [glow_mask, glow_colour, +0_med25]
+  src: +0_med25
++0_med25s:
+  bump: [bump]
+  diffuse: [glow_colour, +0_med25s.tga]
+  glow: [glow_mask, glow_colour, +0_med25s.tga]
+  src: +0_med25s
++1_box_side:
+  src: +0_box_side
+  bump: [bump rivets, bump frame, bump casing bg, bump base]
+  glow: [glow_mask, glow_colour]
+  diffuse: [+1_box_side.tga]
++1_med100:
+  bump: *id001
+  diffuse: [glow_colour, +1_med100.tga]
+  gloss: *id002
+  glow: [glow_mask, glow_colour, glow_brighten, +1_med100.tga]
+  src: +0_med100
++1_med25:
+  bump: *id003
+  diffuse: [glow_colour, +1_med25]
+  glow: [glow_mask, glow_colour, +1_med25]
+  src: +0_med25
++1_med25s:
+  bump: [bump]
+  diffuse: [glow_colour, +1_med25s.tga]
+  glow: [glow_mask, glow_colour, +1_med25s.tga]
+  src: +0_med25s
++2_med100:
+  bump: *id001
+  diffuse: [glow_colour, +2_med100.tga]
+  gloss: *id002
+  glow: [glow_mask, glow_colour, glow_brighten, +2_med100.tga]
+  src: +0_med100
++2_med25:
+  bump: *id003
+  diffuse: [glow_colour, +2_med25]
+  glow: [glow_mask, glow_colour, +2_med25]
+  src: +0_med25
++3_med100:
+  bump: *id001
+  diffuse: [glow_colour, +3_med100.tga]
+  gloss: *id002
+  glow: [glow_mask, glow_colour, glow_brighten, +3_med100.tga]
+  src: +0_med100
++3_med25:
+  bump: *id003
+  diffuse: [glow_colour, +3_med25]
+  glow: [glow_mask, glow_colour, +3_med25]
+  src: +0_med25
 
 adoor01_2:
   src: adoor0
@@ -311,36 +386,88 @@ adoor09_2:
   <<: *adoor09_1
   diffuse: [adoor09_2.tga]
 
+afloor1_3:
+  src: afloor1_3
+  diffuse: [afloor1_3.tga]
+  bump: [bump]
+
 afloor3_1:
   src: afloor3_1
   diffuse: [afloor3_1.tga]
   gloss: [gloss]
+
 altar1_1:
   src: altar1_1
   diffuse: [altar1_1.tga]
   gloss: [gloss]
+
+
+
+altar1_3: &altar1_3
+  src: altar1_3
+  diffuse: [altar1_3.tga]
+  bump: [bump]
+metalt2_2:
+  <<: *altar1_3
+  diffuse: [metalt2_2.tga]
+  gloss: [metalt2_2_gloss_mask, metalt2_2.tga]
+metalt2_3:
+  <<: *altar1_3
+  diffuse: [metalt2_3.tga]
+
+
+
 altar1_4:
   src: altar1_4
   diffuse: [altar1_4.tga]
   bump: [bump]
   gloss: [gloss]
+
 altar1_6:
   src: altar1_6
   diffuse: [altar1_6.tga]
   bump: [bump, bump bg]
   gloss: [gloss]
+metalt2_6:
+  src: altar1_6
+  diffuse: [metalt2_6.tga]
+  bump: [bump, bump bg]
+  gloss: [gloss]
+
 altar1_7:
   src: altar1_6
   diffuse: [altar1_7.tga]
   bump: [bump, bump bg]
+metalt2_7:
+  src: altar1_6
+  diffuse: [metalt2_7.tga]
+  bump: [bump, bump bg]
+
 altar1_8:
   src: altar1_8
   diffuse: [altar1_8.tga]
   gloss: [gloss]
+metalt2_8:
+  src: altar1_8
+  diffuse: [metalt2_8.tga]
+  gloss: [gloss]
+
+altarb_1:
+  src: altarb
+  diffuse: [altarb_1.tga]
+  bump: [bump0, bump1, bump2]
+  gloss: [altarb_1.tga, gloss]
+altarb_2:
+  src: altarb
+  diffuse: [altarb_2.tga]
+  bump: [bump0, bump1, bump2]
+  gloss: []
+
 altarc_1:
   diffuse: [altarc_1.tga]
   bump: [bump, bump background]
   src: altarc_1
+
 arch7:
   src: arch7
   diffuse: [arch7.tga]
@@ -367,6 +494,10 @@ azwall3_2:
   diffuse: [azwall3_2.tga]
   bump: [bump, bump background]
 
+#
+# b
+#
+
 basebutn3:
   src: basebutn3
   diffuse: [basebutn3.tga]
@@ -392,19 +523,29 @@ bricka2_6:
   bump: [bump 2_4, bump background]
   src: bricka2
 
+
+
+#
+# c
+#
+
+
+
 ceil1_1:
   src: ceil1_1
   diffuse: [ceil1_1.tga]
   glow: [Glow Mask, ceil1_1.tga]
 
+carch02:
+  src: carch02
+  diffuse: [carch02.tga]
+  bump: [bumpbg, bump]
+
 carch03:
   src: carch03
   diffuse: [carch03.tga]
-  bump:
-    - bump
-    - bumpbg
-  gloss:
-    - gloss
+  bump: [bumpbg, bump]
+  gloss: [gloss]
 
 carch04_1: &carch04
   src: carch04
@@ -730,6 +871,12 @@ door02_7:
     - bump
 
 
+door04_2:
+  src: door04_2
+  diffuse: [door04_2.tga]
+  bump: [bump lt, bump rt, bump bg]
+
+
 dr01_1: &dr0
   src: dr0
   diffuse: [dr01_1.tga]
@@ -765,6 +912,39 @@ dr07_1:
     - b-edge
 
 
+#
+# grave02
+#
+grave02_1: &grave02
+  src: grave02
+  diffuse: [grave02_1.tga]
+  bump: [grave02_1 bump]
+grave02_2:
+  <<: *grave02
+  diffuse: [grave02_2.tga]
+  bump: [grave02_2 bump]
+grave02_3:
+  <<: *grave02
+  diffuse: [grave02_3.tga]
+  bump: [grave02_3 bump]
+grave02_4:
+  <<: *grave02
+  diffuse: [grave02_4.tga]
+  bump: [grave02_4 bump]
+grave02_5:
+  <<: *grave02
+  diffuse: [grave02_5.tga]
+  bump: [grave02_5 bump]
+grave02_6:
+  <<: *grave02
+  diffuse: [grave02_6.tga]
+  bump: [grave02_6 bump]
+grave02_7:
+  <<: *grave02
+  diffuse: [grave02_7.tga]
+  bump: [grave02_7 bump]
+
+
 ground1_5: &ground1_5
   src: ground1_5
   diffuse: [ground1_5.tga]
@@ -789,10 +969,12 @@ edoor01_1:
   diffuse: [edoor01_1.tga]
   gloss: [gloss]
   src: edoor01_1
+
 elwall2_4:
-  src: azfloor1_1
+  src: elwall2_4
   diffuse: [elwall2_4.tga]
   bump: [bump]
+
 enter01: &enter01
   src: enter01
   diffuse: [enter01.tga]
@@ -984,6 +1166,41 @@ med3_1:
   glow: [glow_mask, glow_colour, med3_1.tga]
 
 
+
+met5_1: &met5_1
+  src: met5_1
+  diffuse: [met5_1.tga]
+  bump: [background bump, rivets bump]
+  gloss: [background gloss, rivets gloss]
+metal2_5:
+  <<: *met5_1
+  diffuse: [metal2_5.tga]
+  bump: [background bump, rivets bump]
+  gloss: [background gloss, rivets gloss]
+metal2_6:
+  <<: *met5_1
+  diffuse: [metal2_6.tga]
+  bump: [background bump, rivets bump]
+  gloss: [background gloss, rivets gloss]
+
+
+
+met5_2:
+  src: met5_2
+  diffuse: [met5_2.tga]
+  bump: [bump bg, bump]
+  gloss: [background gloss, gloss]
+
+
+
+met5_3:
+  src: met5_3
+  diffuse: [met5_3.tga]
+  bump: [bump bg, bump]
+
+
+
+
 metal1_4: &metal1_4
   src: metal1
   diffuse: [metal1_4.tga]
@@ -999,6 +1216,9 @@ metal1_5:
 metal2_3:
   <<: *metal1_4
   diffuse: [metal2_3.tga]
+metal2_7:
+  <<: *metal1_4
+  diffuse: [metal2_7.tga]
 
 
 metal2_4:
@@ -1031,6 +1251,13 @@ e2m5/metal5_2: &metal5_2_x
     - background
 e4m6/metal5_2:
   <<: *metal5_2_x
+
+
+metal5_3:
+  src: metal5_3
+  diffuse: [metal5_3.tga]
+  bump: [bump]
+
 
 metal5_4: &metal5_4
   src: metal5_4
@@ -1110,10 +1337,24 @@ metalt2_4:
 metalt2_5:
   <<: *metalt2_1
   diffuse: [metalt2_5.tga]
-metal4_2:
+
+
+metal4_2: &metal4_2
   diffuse: [metal4_2.tga]
   bump: [bump, bump bg]
   src: metal4_2
+wmet4_2:
+  <<: *metal4_2
+
+
+
+metal4_3: &metal4_3
+  src: metal4_3
+  diffuse: [metal4_3.tga]
+  bump: [bumpbg, bump]
+wmet4_3:
+  <<: *metal4_3
+
 
 
 metal4_4:
@@ -1132,6 +1373,9 @@ metal4_7: &metal4_7
     - bump rivets
     - bump panels
     - bump base
+metal4_8:
+  <<: *metal4_7
+  diffuse: [metal4_8.tga]
 wmet4_7:
   <<: *metal4_7
 
@@ -1146,6 +1390,22 @@ mmetal1_2: &mmetal1_2
     - gloss background
 wizmet1_2:
   <<: *mmetal1_2
+
+
+
+mmetal1_3: &mmetal1_3
+  src: wizmet1_3
+  diffuse: [mmetal1_3.tga]
+  bump: [bump]
+wizmet1_3:
+  <<: *mmetal1_3
+
+mmetal1_7: &mmetal1_7
+  src: wizmet1_7
+  diffuse: [mmetal1_7.tga]
+  bump: [bump base]
+wizmet1_7:
+  <<: *mmetal1_7
 
 
 
@@ -1307,17 +1567,16 @@ rune_a:
 sfloor4_1: &sfloor4_1
   src: sfloor4_1
   diffuse: [sfloor4_1.tga]
-  bump:
-    - bump
-  gloss:
-    - gloss
-    - gloss bg
+  bump: [bump]
+  gloss: [sfloor4_1.tga, gloss_mask]
 sfloor4_2:
   <<: *sfloor4_1
   diffuse: [sfloor4_2.tga]
+  gloss: [sfloor4_2.tga, gloss_mask]
 sfloor4_6:
   <<: *sfloor4_1
   diffuse: [sfloor4_6.tga]
+  gloss: [sfloor4_6.tga, gloss_mask]
 
 
 sfloor4_5: &sfloor4_5
@@ -1376,7 +1635,7 @@ stone1_5:
 switch_1:
   bump: [bump]
   diffuse: [switch_1.tga]
-  glow: [glow]
+  glow: [switch_1.tga, glow]
   src: switch_1
 
 
@@ -1681,6 +1940,12 @@ twall2_5:
     - bump 0
     - background
 
+twall2_6:
+  src: twall2_6
+  diffuse: [twall2_6.tga]
+  bump: [bump]
+  gloss: [gloss]
+
 twall3_1:
   src: twall
   diffuse: [twall3_1.tga]
@@ -1756,7 +2021,7 @@ wexit01:
   <<: *exit01
 
 
-window1_2:
+window1_2: &window1_2
   src: window1
   diffuse: [window1_2.tga]
   bump:
@@ -1767,6 +2032,9 @@ window1_2:
     - gloss
     - gloss frame
     - background gloss
+wizwin1_2:
+  <<: *window1_2
+
 window1_3:
   src: window1
   diffuse: [window1_3.tga]
@@ -1837,6 +2105,16 @@ wizwood1_7:
   <<: *wizwood1_6
   diffuse: [wizwood1_7.tga]
 
+
+
+wkey02_3:
+  src: wkey02_3
+  diffuse: [wkey02_3.tga]
+  bump: [bump bg, bump, bump bolts]
+  gloss: [gloss bg, gloss]
+
+
+
 wmet3_1:
   src: wmet3_1
   diffuse: [wmet3_1.tga]
@@ -1896,9 +2174,16 @@ wswamp2_2:
     - gloss wswamp2_2
     - Background
 
+
+wswitch1:
+  src: wswitch1
+  diffuse: [wswitch1.tga]
+  bump: [bump]
+
+
 z_exit:
   bump: [bump]
   diffuse: [z_exit.tga]
   gloss: [gloss]
-  glow: [glow]
+  glow: [z_exit.tga, glow]
   src: z_exit
