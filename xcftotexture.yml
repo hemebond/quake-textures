@@ -1193,9 +1193,9 @@ met5_2:
 
 
 
-met5_3:
-  src: met5_3
-  diffuse: [met5_3.tga]
+m5_3:
+  src: m5_3
+  diffuse: [m5_3.tga]
   bump: [bump bg, bump]
 
 
