@@ -12,6 +12,10 @@ from PIL import Image, ImageChops, ImageFilter, ImageOps
 from gimpformats.gimpXcfDocument import GimpDocument, flattenAll
 from gimpformats.GimpLayer import GimpLayer
 
+import normal
+import numpy as np
+import cv2
+
 
 
 logging.basicConfig()
@@ -165,32 +169,39 @@ def apply_masks(group: dict, parent_mask: Image = None):
 
 
 
-def render_textures(textures: dict, output_dir: str):
-	for texture_name, texture_def in textures.items():
-		document = get_document(texture_def['src'])
 
-		for variant_name in TEXTURE_VARIANTS:
-			layers = texture_def.get(variant_name, [])
+def make_norm_texture(bump_image: Image) -> Image:
+	bump_scaled = bump_image.resize((bump_image.width * 2, bump_image.height * 2), Image.Resampling.LANCZOS)
 
-			if layers:
-				image = render_texture(
-					document,
-					layers,
-				)
+	# we need to invert the height map because the algorithm we're using creates an inverted normal map
+	bump_scaled = ImageChops.invert(bump_scaled)
 
-				if variant_name == 'diffuse':
-					filename = "%s.tga" % texture_name
-				else:
-					filename = "%s_%s.jpg" % (texture_name, variant_name)
+	# Convert the image to a 1-dimensional numpy array
+	numpy_image = np.array(bump_scaled)
+	rows, cols = numpy_image.shape
 
-				filepath = Path(os.path.join(output_dir, filename))
+	x, y = np.meshgrid(np.arange(cols), np.arange(rows))
+	x = x.astype(np.float32)
+	y = y.astype(np.float32)
 
-				if not filepath.parent.exists():
-					os.mkdir(filepath.parent)
+	# Calculate the partial derivatives of depth with respect to x and y
+	dx = cv2.Sobel(numpy_image, cv2.CV_32F, 1, 0)
+	dy = cv2.Sobel(numpy_image, cv2.CV_32F, 0, 1)
 
-				log.info("Save to %s" % filepath)
+	# Compute the normal vector for each pixel
+	normal = np.dstack((-dx, -dy, np.ones((rows, cols))))
+	norm = np.sqrt(np.sum(normal**2, axis=2, keepdims=True))
+	normal = np.divide(normal, norm, out=np.zeros_like(normal), where=norm != 0)
 
-				image.save(filepath)
+	# Map the normal vectors to the [0, 255] range and convert to uint8
+	normal = (normal + 1) * 127.5
+	normal = normal.clip(0, 255).astype(np.uint8)
+
+	# Save the normal map to a file
+	normal_bgr = cv2.cvtColor(normal, cv2.COLOR_RGB2BGR)
+	im = Image.fromarray(normal)
+	im.putalpha(bump_scaled)
+	return im
 
 
 
@@ -218,6 +229,11 @@ class Texture:
 			if variant_name == 'bump':
 				# FTEQW refuses to load bump textures that are not grayscale
 				variants[variant_name] = ImageOps.grayscale(variants[variant_name])
+
+				# Create a normal map texture from the bump map
+				log.debug("Creating norm texture")
+				variants['norm'] = make_norm_texture(variants['bump'])
+				log.info(variants['norm'])
 
 		if 'bump' not in variants:
 			variants['bump'] = self.default_bump()
@@ -356,17 +372,20 @@ class TextureBuilder:
 					destination_directory,
 				)
 
-				if not variant_filepath.parent.exists():
+				try:
 					os.mkdir(variant_filepath.parent)
+				except FileExistsError:
+					pass
 
 				log.info(f"Saving {variant_filepath.resolve()}")
+				log.info(variant_image)
 
-				if extension == 'jpg':
+				if str(variant_filepath)[-3:] == "jpg":
 					if variant_image.mode == 'RGBA':
 						log.info("Converting to RGB")
 						variant_image = variant_image.convert('RGB')
 
-					variant_image.save(variant_filepath.resolve(), quality=95, optimize=True)
+					variant_image.save(variant_filepath.resolve(), quality=100, optimize=True)
 				else:
 					variant_image.save(variant_filepath.resolve())
 
@@ -376,6 +395,8 @@ class TextureBuilder:
 				filename = f"{name}.tga"
 			else:
 				filename = f"{name}.{extension}"
+		elif variant_type == 'norm':
+			filename = f"{name}_norm.tga"
 		else:
 			filename = f"{name}_{variant_type}.{extension}"
 

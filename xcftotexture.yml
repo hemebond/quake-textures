@@ -1707,6 +1707,7 @@ tech03_1:
   src: tech_wall
 tech03_2:
   bump: [rivets_1_bump, panel_angled_thin_bump, ridges_bump_tiny]
+  gloss: [panel_angled_thin_gloss]
   diffuse: [tech03_2.tga]
   src: tech_wall
 tech04_1:
@@ -1767,10 +1768,12 @@ tech07_2:
   src: tech_wall
 tech08_1:
   bump: [rivets_1_bump, panel_angled_thin_bump, ridges_bump_small]
+  gloss: [ridges_bump_small_gloss, panel_angled_thin_gloss]
   diffuse: [tech08_1.tga]
   src: tech_wall
 tech08_2:
   bump: [rivets_1_bump, panel_angled_thin_bump, ridges_bump_small]
+  gloss: [ridges_bump_small_gloss, panel_angled_thin_gloss]
   diffuse: [tech08_2.tga]
   src: tech_wall
 tech09_3:
@@ -1822,10 +1825,12 @@ tech13_2:
   src: tech_wall
 tech14_1:
   bump: [rivets_1_bump, panel_angled_thin_bump, ridges_bump_large]
+  gloss: [panel_angled_thin_gloss, ridges_bump_large_gloss]
   diffuse: [tech14_1.tga]
   src: tech_wall
 tech14_2:
   bump: [rivets_2_bump, panel_angled_wide_bump, ridges_bump_large]
+  gloss: [05_2_gloss, ridges_bump_large_gloss]
   diffuse: [tech14_2.tga]
   src: tech_wall
 

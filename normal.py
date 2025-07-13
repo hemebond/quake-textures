@@ -1,122 +1,155 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 20 16:17:48 2023
+https://github.com/NullCipherr/Normal_Map_Generator/blob/main/Normal_Map.py
+@author: NullCipherr
+"""
 
 import numpy as np
-import scipy.ndimage
-import scipy.misc
-from scipy import ndimage
-import argparse
-import imageio
+import cv2
+import os
+
+# Define the path to the input folder.
+input_folder = "Input"
+
+# Define the Output folder
+output_folder = "Output"
+
+# Define the debugging folder
+depuration_folder = "Depuration"
+
+# Path of the input image.
+input_image = "Texture.jpg"
+
+# Define complete input image path
+input_image_path = "/home/james/.darkplaces/id1_tex/textures/+0butn_bump.jpg"
+
+##############################################################################
+# Function 'load_image': Loads any image.
+##############################################################################
+# Parameters
+#   - input_path: Path where the desired image is located.
+##############################################################################
+def load_image(input_path):
+	try:
+		image = cv2.imread(input_path)
+
+		if image is not None:
+			return image
+		else:
+			print("Error loading the image at the specified path...")
+			return None
+	except Exception as e:
+		print(f"Error loading the image: {e}")
+		return None
 
 
-def smooth_gaussian(im, sigma):
+##############################################################################
+# Function 'save_image': Saves any image to a specific path.
+##############################################################################
+# Parameters
+#   - image: Image passed as a parameter to be saved at the desired location.
+#   - output_name: Output name for the saved image.
+#   - output_folder: Folder where the image will be saved.
+##############################################################################
+def save_image(image, output_name, output_folder, resolution=(512, 512)):
 
-    if sigma == 0:
-        return im
+	image = cv2.resize(image, resolution)
 
-    im_smooth = im.astype(float)
-    kernel_x = np.arange(-3*sigma,3*sigma+1).astype(float)
-    kernel_x = np.exp((-(kernel_x**2))/(2*(sigma**2)))
+	print("\nOutput name -> ", output_name, "\nOutput folder -> ", output_folder, "\nResolution -> ", resolution)
 
-    im_smooth = scipy.ndimage.convolve(im_smooth, kernel_x[np.newaxis])
+	# Create the complete path to the location
+	output_path = os.path.join(output_folder, output_name)
 
-    im_smooth = scipy.ndimage.convolve(im_smooth, kernel_x[np.newaxis].T)
-
-    return im_smooth
-
-
-def gradient(im_smooth):
-
-    gradient_x = im_smooth.astype(float)
-    gradient_y = im_smooth.astype(float)
-
-    kernel = np.arange(-1,2).astype(float)
-    kernel = - kernel / 2
-
-    gradient_x = scipy.ndimage.convolve(gradient_x, kernel[np.newaxis])
-    gradient_y = scipy.ndimage.convolve(gradient_y, kernel[np.newaxis].T)
-
-    return gradient_x,gradient_y
+	try:
+		cv2.imwrite(output_path, image)
+		print(f"Image successfully saved at {output_path}")
+	except Exception as e:
+		print(f"Error saving the image: {e}")
 
 
-def sobel(im_smooth):
-    gradient_x = im_smooth.astype(float)
-    gradient_y = im_smooth.astype(float)
+##############################################################################
+# Function 'calculate_normal_map': Calculates the normal map of an image.
+##############################################################################
+# Parameters
+#   - image: Desired image to calculate the normal map.
+##############################################################################
+def generate_normal_map(image):
+	# Convert the image to grayscale (necessary for gradient calculation)
+	gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    kernel = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+	# Save the grayscale image for debugging
+	save_image(gray_image, "Gray.jpg", depuration_folder)
 
-    gradient_x = scipy.ndimage.convolve(gradient_x, kernel)
-    gradient_y = scipy.ndimage.convolve(gradient_y, kernel.T)
+	# Calculate horizontal and vertical gradients using the Sobel operator
+	gradient_x = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize=5)
+	gradient_y = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize=5)
 
-    return gradient_x,gradient_y
+	# Save gradient images for debugging
+	save_image(gradient_x, "Gradient_x.jpg", depuration_folder)
+	save_image(gradient_y, "Gradient_y.jpg", depuration_folder)
 
+	# Normalize gradients to the range [-1, 1]
+	gradient_x = cv2.normalize(gradient_x, None, -1, 1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
+	gradient_y = cv2.normalize(gradient_y, None, -1, 1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
 
-def compute_normal_map(gradient_x, gradient_y, intensity=1):
+	normalized_gradient_x = (gradient_x * 255).astype(np.uint8)
+	normalized_gradient_y = (gradient_y * 255).astype(np.uint8)
 
-    width = gradient_x.shape[1]
-    height = gradient_x.shape[0]
-    max_x = np.max(gradient_x)
-    max_y = np.max(gradient_y)
+	# Save normalized gradient images for debugging
+	save_image(normalized_gradient_x, "Normalized_Gradient_x.jpg", depuration_folder)
+	save_image(normalized_gradient_y, "Normalized_Gradient_y.jpg", depuration_folder)
 
-    max_value = max_x
+	# Calculate the Z component of the normal using the normalization formula
+	component_z = np.sqrt(np.clip(1.0 - gradient_x**2 - gradient_y**2, 0, 1))
 
-    if max_y > max_x:
-        max_value = max_y
+	normal_z = (component_z * 255).astype(np.uint8)
 
-    normal_map = np.zeros((height, width, 3), dtype=np.float32)
+	# Save the normal_z image for debugging
+	save_image(normal_z, "Normal_z.jpg", depuration_folder)
 
-    intensity = 1 / intensity
+	# Stack the normal components into an RGB image
+	normal_map = np.dstack((gradient_x, gradient_y, component_z))
 
-    strength = max_value / (max_value * intensity)
-
-    normal_map[..., 0] = gradient_x / max_value
-    normal_map[..., 1] = gradient_y / max_value
-    normal_map[..., 2] = 1 / strength
-
-    norm = np.sqrt(np.power(normal_map[..., 0], 2) + np.power(normal_map[..., 1], 2) + np.power(normal_map[..., 2], 2))
-
-    normal_map[..., 0] /= norm
-    normal_map[..., 1] /= norm
-    normal_map[..., 2] /= norm
-
-    normal_map *= 0.5
-    normal_map += 0.5
-
-    return normal_map
+	return (normal_map * 128 + 128).astype(np.uint8)
 
 
-def main():
+def generate_ambient_occlusion(image, radius=1, strength=0.9, gamma=1.0, exposure=1.0):
+	# Converte a imagem para escala de cinza diretamente
+	gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    parser = argparse.ArgumentParser(description='Compute normal map of an image')
+	# Calcula o mapa de oclusão usando um filtro de desfoque radial
+	occlusion_map = cv2.GaussianBlur(gray_image.astype(np.float32), (0, 0), radius)
 
-    parser.add_argument('input_file', type=str, help='input image path')
-    parser.add_argument('output_file', type=str, help='output image path')
-    parser.add_argument('-s', '--smooth', default=0., type=float, help='smooth gaussian blur applied on the image')
-    parser.add_argument('-it', '--intensity', default=1., type=float, help='intensity of the normal map')
+	# Normaliza o mapa de oclusão para o intervalo [0, 1]
+	occlusion_map = cv2.normalize(occlusion_map, None, 0, 1, cv2.NORM_MINMAX)
 
-    args = parser.parse_args()
+	# Ajusta a intensidade da oclusão
+	occlusion_map = 1 - occlusion_map * strength
 
-    sigma = args.smooth
-    intensity = args.intensity
-    input_file = args.input_file
-    output_file = args.output_file
+	# Ajusta o contraste do mapa de oclusão usando a correção gama
+	occlusion_map = np.power(occlusion_map, gamma)
 
-    # im = ndimage.imread(input_file)
-    im = imageio.imread(input_file)
+	# Ajusta a exposição do mapa de oclusão
+	occlusion_map = np.clip(occlusion_map * exposure, 0, 1)
 
-    if im.ndim == 3:
-        im_grey = np.zeros((im.shape[0],im.shape[1])).astype(float)
-        im_grey = (im[...,0] * 0.3 + im[...,1] * 0.6 + im[...,2] * 0.1)
-        im = im_grey
+	# Converte o mapa de oclusão para valores de 8 bits (0-255)
+	occlusion_map = (occlusion_map * 255).astype(np.uint8)
 
-    im_smooth = smooth_gaussian(im, sigma)
-
-    sobel_x, sobel_y = sobel(im_smooth)
-
-    normal_map = compute_normal_map(sobel_x, sobel_y, intensity)
-
-    # scipy.misc.imsave(output_file, normal_map)
-    imageio.imwrite(output_file, normal_map)
+	return occlusion_map
 
 
 if __name__ == "__main__":
-    main()
+
+	# Load the input image.
+	input_image = load_image(input_image_path)
+
+	if input_image is not None:
+		# Apply the 'calculate_normal_map' function to the input image.
+		normal_map = generate_normal_map(input_image)
+		ambient_occlusion = generate_ambient_occlusion(input_image)
+
+		# Save the input image.
+		save_image(normal_map, "NM.jpg", output_folder)
+		save_image(ambient_occlusion, "AO.jpg", output_folder)
