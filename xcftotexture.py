@@ -12,7 +12,6 @@ from PIL import Image, ImageChops, ImageFilter, ImageOps
 from gimpformats.gimpXcfDocument import GimpDocument, flattenAll
 from gimpformats.GimpLayer import GimpLayer
 
-import normal
 import numpy as np
 import cv2
 
